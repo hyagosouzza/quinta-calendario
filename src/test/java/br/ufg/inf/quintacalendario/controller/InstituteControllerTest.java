@@ -1,6 +1,5 @@
 package br.ufg.inf.quintacalendario.controller;
 
-import antlr.StringUtils;
 import br.ufg.inf.quintacalendario.main.Application;
 import br.ufg.inf.quintacalendario.model.Event;
 import br.ufg.inf.quintacalendario.model.Institute;
@@ -13,7 +12,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.internal.util.StringUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
