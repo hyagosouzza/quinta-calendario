@@ -182,16 +182,16 @@ public class EventService {
      * @param event event to be cleared
      */
     public void clearObject(Event event) {
-        Session session = getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+        try (Session session = getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
 
-        deleteCategory(event);
-        deleteInstitute(event);
-        deleteRegionals(event);
+            deleteCategory(event);
+            deleteInstitute(event);
+            deleteRegionals(event);
 
-        new EventoRepository(session).atualizar(event);
-        transaction.commit();
-        session.close();
+            new EventoRepository(session).atualizar(event);
+            transaction.commit();
+        }
     }
 
     /**
