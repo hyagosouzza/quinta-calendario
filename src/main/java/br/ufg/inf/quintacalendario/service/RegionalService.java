@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class RegionalService {
 
-    private final Integer MIN_LENGTH = 4;
+    private static final Integer MIN_LENGTH = 4;
     private SessionFactory sessionFactory;
 
     /**
