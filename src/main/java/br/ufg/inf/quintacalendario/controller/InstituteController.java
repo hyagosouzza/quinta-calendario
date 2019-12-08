@@ -51,7 +51,6 @@ public class InstituteController extends AbstractController {
      * Returns all institute records on database
      *
      * @return list of records
-     * @see List<Institute>
      */
     public List<Institute> listRecords() {
         InstituteService instituteService = new InstituteService(getAbstractSessionFactory());
@@ -63,7 +62,6 @@ public class InstituteController extends AbstractController {
      *
      * @param description field used on query filter
      * @return list of records filtered by description
-     * @see List<Institute>
      */
     public List<Institute> listRecordsByDescription(String description) {
         InstituteService instituteService = new InstituteService(getAbstractSessionFactory());

@@ -2,6 +2,11 @@ package br.ufg.inf.quintacalendario.controller;
 
 import org.hibernate.SessionFactory;
 
+/**
+ * Controller responsible for generic methods of controllers
+ *
+ * @author Hyago Souza
+ */
 public abstract class AbstractController {
 
 	private SessionFactory abstractSessionFactory;

@@ -48,7 +48,6 @@ public class EventController extends AbstractController {
 	 * @param regionalId   regional identifier of event to create
 	 * @param instituteId   institute identifier of event to create
 	 * @return boolean representing success or error
-     * @exception Exception
 	 */
 	public boolean register(String description,
 							String title,
@@ -125,7 +124,6 @@ public class EventController extends AbstractController {
 	 * Returns all event records on database
 	 *
 	 * @return list of records
-	 * @see List<Event>
 	 */
 	public List<Event> listRecords() {
 		EventService eventService = new EventService(getAbstractSessionFactory());
@@ -137,7 +135,6 @@ public class EventController extends AbstractController {
 	 *
 	 * @param description field used on query filter
 	 * @return list of records filtered by description
-	 * @see List<Event>
 	 */
 	public List<Event> listRecordsByDescription(String description) {
 		EventService eventService = new EventService(getAbstractSessionFactory());
@@ -162,35 +159,38 @@ public class EventController extends AbstractController {
      * @param initialDate initial date of event
      * @param finalDate final date of event
      * @return records with matching dates
-     * @see List<Event>
+     * @see List
      */
 	public List<Event> listByPeriod(String initialDate, String finalDate) {
 		EventService eventService = new EventService(getAbstractSessionFactory());
 		return eventService.listByPeriod(from(initialDate), from(finalDate));
 	}
 
-    /**
-     *
-     * @see RegionalController#listRecords()
-     */
+	/**
+	 * Returns all regional records on database
+	 *
+	 * @return list of records
+	 */
 	public List<Regional> listRegionals() {
 		RegionalService regionalService = new RegionalService(getAbstractSessionFactory());
 		return regionalService.listRecords();
 	}
 
-    /**
-     *
-     * @see InstituteController#listRecords()
-     */
+	/**
+	 * Returns all institute records on database
+	 *
+	 * @return list of records
+	 */
 	public List<Institute> listInstitutes() {
 		InstituteService instituteService = new InstituteService(getAbstractSessionFactory());
 		return instituteService.listRecords();
 	}
 
-    /**
-     *
-     * @see CategoryController#listRecords()
-     */
+	/**
+	 * Returns all category records on database
+	 *
+	 * @return list of records
+	 */
 	public List<Category> listCategories() {
 		CategoryService categoryService = new CategoryService(getAbstractSessionFactory());
 		return categoryService.listRecords();

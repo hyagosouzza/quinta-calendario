@@ -51,7 +51,6 @@ public class CategoryController extends AbstractController {
      * Returns all category records on database
      *
      * @return list of records
-     * @see List<Category>
      */
     public List<Category> listRecords() {
         CategoryService service = new CategoryService(getAbstractSessionFactory());
@@ -63,7 +62,6 @@ public class CategoryController extends AbstractController {
      *
      * @param description field used on query filter
      * @return list of records filtered by description
-     * @see List<Category>
      */
     public List<Category> listRecordsByDescription(String description) {
         CategoryService categoryService = new CategoryService(getAbstractSessionFactory());

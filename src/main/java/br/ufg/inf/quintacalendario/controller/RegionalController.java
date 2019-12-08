@@ -51,7 +51,6 @@ public class RegionalController extends AbstractController {
      * Returns all regional records on database
      *
      * @return list of records
-     * @see List<Regional>
      */
     public List<Regional> listRecords() {
         RegionalService regionalService = new RegionalService(getAbstractSessionFactory());
@@ -63,7 +62,6 @@ public class RegionalController extends AbstractController {
      *
      * @param description field used on query filter
      * @return list of records filtered by description
-     * @see List<Regional>
      */
     public List<Regional> listRecordsByDescription(String description) {
         RegionalService regionalService = new RegionalService(getAbstractSessionFactory());
