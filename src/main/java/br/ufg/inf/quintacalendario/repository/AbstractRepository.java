@@ -26,17 +26,17 @@ public abstract class AbstractRepository<T> implements IRepository<T> {
     }
 
     @Override
-    public void salvar(T t) {
+    public void save(T t) {
         session.save(t);
     }
 
     @Override
-    public void atualizar(T t) {
+    public void update(T t) {
         session.merge(t);
     }
 
     @Override
-    public List<T> listar() {
+    public List<T> get() {
         String sql = "SELECT " + getModelAlias() + " FROM "
                 + this.modelClass.getSimpleName().toLowerCase() + " " + getModelAlias();
 
@@ -44,7 +44,7 @@ public abstract class AbstractRepository<T> implements IRepository<T> {
     }
 
     @Override
-    public T listarPorId(long id) {
+    public T getById(long id) {
         return session.find(modelClass, id);
     }
 
@@ -67,7 +67,7 @@ public abstract class AbstractRepository<T> implements IRepository<T> {
     }
 
     @Override
-    public void limparTabela() {
+    public void dropTable() {
         StringBuilder jpql = new StringBuilder();
         jpql.append("Delete from " + this.modelClass.getSimpleName().toLowerCase());
 
@@ -78,7 +78,7 @@ public abstract class AbstractRepository<T> implements IRepository<T> {
 
     @Override
     public void remover(long id) {
-        T t = listarPorId(id);
+        T t = getById(id);
         session.remove(t);
     }
 }

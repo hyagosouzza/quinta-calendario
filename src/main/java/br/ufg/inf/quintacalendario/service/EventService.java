@@ -1,7 +1,7 @@
 package br.ufg.inf.quintacalendario.service;
 
 import br.ufg.inf.quintacalendario.model.Event;
-import br.ufg.inf.quintacalendario.repository.EventoRepository;
+import br.ufg.inf.quintacalendario.repository.EventRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -36,7 +36,7 @@ public class EventService {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            new EventoRepository(session).salvar(event);
+            new EventRepository(session).save(event);
             transaction.commit();
 
             return true;
@@ -56,8 +56,8 @@ public class EventService {
     public void edit(Event event) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        EventoRepository eventRepository = new EventoRepository(session);
-        eventRepository.atualizar(event);
+        EventRepository eventRepository = new EventRepository(session);
+        eventRepository.update(event);
         transaction.commit();
     }
 
@@ -67,7 +67,7 @@ public class EventService {
      */
     public List<Event> listRecords() {
         Session session = sessionFactory.openSession();
-        return new EventoRepository(session).listar();
+        return new EventRepository(session).get();
     }
 
     /**
@@ -77,7 +77,7 @@ public class EventService {
      */
     public List<Event> listRecordsByDescription(String description) {
         Session session = sessionFactory.openSession();
-        return new EventoRepository(session).listarPorDescricao(description);
+        return new EventRepository(session).getByDecription(description);
     }
 
     /**
@@ -87,7 +87,7 @@ public class EventService {
      */
     public Event listById(long id) {
         Session session = sessionFactory.openSession();
-        return new EventoRepository(session).listarPorId(id);
+        return new EventRepository(session).getById(id);
     }
 
     /**
@@ -97,7 +97,7 @@ public class EventService {
      */
     public List<Event> listByCategory(long categoryId) {
         Session session = sessionFactory.openSession();
-        return new EventoRepository(session).listarPorCategoria(categoryId);
+        return new EventRepository(session).getByCategory(categoryId);
     }
 
     /**
@@ -107,7 +107,7 @@ public class EventService {
      */
     public List<Event> listByInstitute(long instituteId) {
         Session session = sessionFactory.openSession();
-        return new EventoRepository(session).listarPorInstituto(instituteId);
+        return new EventRepository(session).getByInstitute(instituteId);
     }
 
     /**
@@ -117,7 +117,7 @@ public class EventService {
      */
     public List<Event> listByRegional(long regionalId) {
         Session session = sessionFactory.openSession();
-        return new EventoRepository(session).listarPorRegional(regionalId);
+        return new EventRepository(session).listarPorRegional(regionalId);
     }
 
     /**
@@ -128,7 +128,7 @@ public class EventService {
      */
     public List<Event> listByPeriod(Date startDate, Date endDate) {
         Session session = sessionFactory.openSession();
-        return new EventoRepository(session).listarPorPeriodo(startDate, endDate);
+        return new EventRepository(session).getByPeriod(startDate, endDate);
     }
 
     /**
@@ -138,7 +138,7 @@ public class EventService {
      */
     public List<Event> listByDate(Date date) {
         Session session = sessionFactory.openSession();
-        return new EventoRepository(session).listarPorData(date);
+        return new EventRepository(session).getByInitialDate(date);
 
     }
 
@@ -148,7 +148,7 @@ public class EventService {
     public void truncateTable() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        new EventoRepository(session).limparTabela();
+        new EventRepository(session).dropTable();
         transaction.commit();
         session.close();
     }
@@ -189,7 +189,7 @@ public class EventService {
             deleteInstitute(event);
             deleteRegionals(event);
 
-            new EventoRepository(session).atualizar(event);
+            new EventRepository(session).update(event);
             transaction.commit();
         }
     }

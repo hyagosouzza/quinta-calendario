@@ -7,19 +7,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CategoriaRepository extends AbstractRepository<Category> {
+public class CategoryRepository extends AbstractRepository<Category> {
 
-    public CategoriaRepository(Session session) {
+    public CategoryRepository(Session session) {
         super(session);
     }
 
     @Override
-    public List<Category> listarPorDescricao(String descricao) {
+    public List<Category> getByDecription(String description) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("Select t from category t where t.name like :description");
 
         Map<String, Object> parametros = new HashMap<String, Object>();
-        parametros.put("description", "%" + descricao + "%");
+        parametros.put("description", "%" + description + "%");
 
         List<Category> categories = select(jpql.toString(), parametros);
         return categories;

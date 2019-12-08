@@ -39,7 +39,7 @@ public class RegionalService {
 
             validateRegional(regional);
 
-            new RegionalRepository(session).salvar(regional);
+            new RegionalRepository(session).save(regional);
             transaction.commit();
 
             return true;
@@ -60,12 +60,12 @@ public class RegionalService {
     public void edit(long id, String description) {
         Session session = sessionFactory.openSession();
         RegionalRepository regionalRepository = new RegionalRepository(session);
-        Regional regional = regionalRepository.listarPorId(id);
+        Regional regional = regionalRepository.getById(id);
 
         Transaction transaction = session.beginTransaction();
 
         regional.setName(description);
-        regionalRepository.atualizar(regional);
+        regionalRepository.update(regional);
 
         transaction.commit();
         session.close();
@@ -92,7 +92,7 @@ public class RegionalService {
      */
     public List<Regional> listRecords() {
         Session session = sessionFactory.openSession();
-        return new RegionalRepository(session).listar();
+        return new RegionalRepository(session).get();
     }
 
     /**
@@ -102,7 +102,7 @@ public class RegionalService {
      */
     public List<Regional> listRecordsByDescription(String description) {
         Session session = sessionFactory.openSession();
-        return new RegionalRepository(session).listarPorDescricao(description);
+        return new RegionalRepository(session).getByDecription(description);
     }
 
     /**
@@ -112,7 +112,7 @@ public class RegionalService {
      */
     public Regional listById(long id) {
         Session session = sessionFactory.openSession();
-        return new RegionalRepository(session).listarPorId(id);
+        return new RegionalRepository(session).getById(id);
     }
 
     /**
@@ -121,7 +121,7 @@ public class RegionalService {
     public void truncateTable() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        new RegionalRepository(session).limparTabela();
+        new RegionalRepository(session).dropTable();
         transaction.commit();
         session.close();
     }

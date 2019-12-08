@@ -1,7 +1,7 @@
 package br.ufg.inf.quintacalendario.service;
 
 import br.ufg.inf.quintacalendario.model.Institute;
-import br.ufg.inf.quintacalendario.repository.InstitutoRepository;
+import br.ufg.inf.quintacalendario.repository.InstituteRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -38,7 +38,7 @@ public class InstituteService {
         try {
             validadeInstitute(institute);
 
-            new InstitutoRepository(session).salvar(institute);
+            new InstituteRepository(session).save(institute);
             transaction.commit();
 
             return true;
@@ -72,7 +72,7 @@ public class InstituteService {
      */
     public List<Institute> listRecords() {
         Session session = sessionFactory.openSession();
-        return new InstitutoRepository(session).listar();
+        return new InstituteRepository(session).get();
     }
 
     /**
@@ -81,7 +81,7 @@ public class InstituteService {
     public void truncateTable() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        new InstitutoRepository(session).limparTabela();
+        new InstituteRepository(session).dropTable();
         transaction.commit();
         session.close();
     }
@@ -93,7 +93,7 @@ public class InstituteService {
      */
     public List<Institute> listRecordsByDescription(String description) {
         Session session = sessionFactory.openSession();
-        return new InstitutoRepository(session).listarPorDescricao(description);
+        return new InstituteRepository(session).getByDecription(description);
     }
 
     /**
@@ -103,7 +103,7 @@ public class InstituteService {
      */
     public Institute listById(Integer id) {
         Session session = sessionFactory.openSession();
-        return new InstitutoRepository(session).listarPorId(id);
+        return new InstituteRepository(session).getById(id);
     }
 
     /**
@@ -113,13 +113,13 @@ public class InstituteService {
      */
     public void edit(Integer id, String name) {
         Session session = sessionFactory.openSession();
-        InstitutoRepository instituteRepository = new InstitutoRepository(session);
-        Institute institute = instituteRepository.listarPorId(id);
+        InstituteRepository instituteRepository = new InstituteRepository(session);
+        Institute institute = instituteRepository.getById(id);
 
         Transaction transaction = session.beginTransaction();
 
         institute.setName(name);
-        instituteRepository.atualizar(institute);
+        instituteRepository.update(institute);
 
         transaction.commit();
         session.close();
@@ -132,7 +132,7 @@ public class InstituteService {
     public void remove(Integer id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        new InstitutoRepository(session).remover(id);
+        new InstituteRepository(session).remover(id);
         transaction.commit();
         session.close();
     }
