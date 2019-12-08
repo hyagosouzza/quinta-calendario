@@ -120,7 +120,7 @@ public class EventServiceTest {
 
         assertEquals(Collections.emptyList(), events);
     }
-    
+
     public void generateTwoRandomEvents() {
         eventController.register(description, title, initialDate, finalDate, categoryId, regionalId, instituteId);
         eventController.register("Another description", title, initialDate, finalDate, categoryId, regionalId, instituteId);
