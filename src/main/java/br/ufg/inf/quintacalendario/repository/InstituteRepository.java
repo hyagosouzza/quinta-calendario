@@ -22,8 +22,7 @@ public class InstituteRepository extends AbstractRepository<Institute> {
 
         parametros.put("description", "%" + description + "%");
 
-        List<Institute> institutes = select(jpql.toString(), parametros);
-        return institutes;
+        return select(jpql.toString(), parametros);
     }
 
 }

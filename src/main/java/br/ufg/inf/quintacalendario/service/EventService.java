@@ -65,7 +65,7 @@ public class EventService {
      * List all events
      * @return a list of events
      */
-    public List<Event> listRecords() {
+    public List<Event> getRecords() {
         Session session = sessionFactory.openSession();
         return new EventRepository(session).get();
     }
@@ -75,7 +75,7 @@ public class EventService {
      * @param description description to be searched by
      * @return a list of Events
      */
-    public List<Event> listRecordsByDescription(String description) {
+    public List<Event> getRecordsByDescription(String description) {
         Session session = sessionFactory.openSession();
         return new EventRepository(session).getByDecription(description);
     }
@@ -85,7 +85,7 @@ public class EventService {
      * @param id id of the event to be searched
      * @return a Event
      */
-    public Event listById(long id) {
+    public Event getById(long id) {
         Session session = sessionFactory.openSession();
         return new EventRepository(session).getById(id);
     }
@@ -95,7 +95,7 @@ public class EventService {
      * @param categoryId id of the category to be searched by
      * @return a list of Events
      */
-    public List<Event> listByCategory(long categoryId) {
+    public List<Event> getByCategory(long categoryId) {
         Session session = sessionFactory.openSession();
         return new EventRepository(session).getByCategory(categoryId);
     }
@@ -105,7 +105,7 @@ public class EventService {
      * @param instituteId id of the institute to be searched by
      * @return a list of Events
      */
-    public List<Event> listByInstitute(long instituteId) {
+    public List<Event> getByInstitute(long instituteId) {
         Session session = sessionFactory.openSession();
         return new EventRepository(session).getByInstitute(instituteId);
     }
@@ -115,7 +115,7 @@ public class EventService {
      * @param regionalId id of the regional to be searched by
      * @return a list of Events
      */
-    public List<Event> listByRegional(long regionalId) {
+    public List<Event> getByRegional(long regionalId) {
         Session session = sessionFactory.openSession();
         return new EventRepository(session).listarPorRegional(regionalId);
     }
@@ -126,7 +126,7 @@ public class EventService {
      * @param endDate end date of the period
      * @return a list of Events
      */
-    public List<Event> listByPeriod(Date startDate, Date endDate) {
+    public List<Event> getByPeriod(Date startDate, Date endDate) {
         Session session = sessionFactory.openSession();
         return new EventRepository(session).getByPeriod(startDate, endDate);
     }
@@ -136,7 +136,7 @@ public class EventService {
      * @param date date to be searched by
      * @return a list of Events
      */
-    public List<Event> listByDate(Date date) {
+    public List<Event> getByDate(Date date) {
         Session session = sessionFactory.openSession();
         return new EventRepository(session).getByInitialDate(date);
 
@@ -174,7 +174,7 @@ public class EventService {
      * @param event event to be edited
      */
     private void deleteRegionals(Event event) {
-        event.getRegionais().clear();
+        event.getRegionals().clear();
     }
 
     /**

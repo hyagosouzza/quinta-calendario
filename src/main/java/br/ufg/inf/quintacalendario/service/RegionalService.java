@@ -90,7 +90,7 @@ public class RegionalService {
      * List all regionals
      * @return a list of regionals
      */
-    public List<Regional> listRecords() {
+    public List<Regional> getRecords() {
         Session session = sessionFactory.openSession();
         return new RegionalRepository(session).get();
     }
@@ -100,7 +100,7 @@ public class RegionalService {
      * @param description description to be searched by
      * @return a list of regionals
      */
-    public List<Regional> listRecordsByDescription(String description) {
+    public List<Regional> getRecordsByDescription(String description) {
         Session session = sessionFactory.openSession();
         return new RegionalRepository(session).getByDecription(description);
     }
@@ -110,7 +110,7 @@ public class RegionalService {
      * @param id id to be searched by
      * @return a list of regionals
      */
-    public Regional listById(long id) {
+    public Regional getById(long id) {
         Session session = sessionFactory.openSession();
         return new RegionalRepository(session).getById(id);
     }

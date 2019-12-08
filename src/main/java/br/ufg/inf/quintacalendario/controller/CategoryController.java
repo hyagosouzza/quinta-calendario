@@ -55,7 +55,7 @@ public class CategoryController extends AbstractController {
      */
     public List<Category> listRecords() {
         CategoryService service = new CategoryService(getAbstractSessionFactory());
-        return service.listRecords();
+        return service.getRecords();
     }
 
     /**
@@ -67,7 +67,7 @@ public class CategoryController extends AbstractController {
      */
     public List<Category> listRecordsByDescription(String description) {
         CategoryService categoryService = new CategoryService(getAbstractSessionFactory());
-        return categoryService.listRecordsByDescription(description);
+        return categoryService.getRecordsByDescription(description);
     }
 
     /**
@@ -79,7 +79,7 @@ public class CategoryController extends AbstractController {
      */
     public Category listById(Integer id) {
         CategoryService categoryService = new CategoryService(getAbstractSessionFactory());
-        return categoryService.listById(id);
+        return categoryService.getById(id);
     }
 
     /**
@@ -100,7 +100,7 @@ public class CategoryController extends AbstractController {
      */
     public void remove(Integer id) {
         CategoryService categoryService = new CategoryService(getAbstractSessionFactory());
-        Category category = categoryService.listById(id);
+        Category category = categoryService.getById(id);
 
         if (Objects.isNull(category)) {
             System.out.println("******* Codigo invalido *******");

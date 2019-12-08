@@ -70,7 +70,7 @@ public class InstituteService {
      * List all institutes
      * @return a list of institutes
      */
-    public List<Institute> listRecords() {
+    public List<Institute> getRecords() {
         Session session = sessionFactory.openSession();
         return new InstituteRepository(session).get();
     }
@@ -91,7 +91,7 @@ public class InstituteService {
      * @param description description to be searched by
      * @return a list of institutes
      */
-    public List<Institute> listRecordsByDescription(String description) {
+    public List<Institute> getRecordsByDescription(String description) {
         Session session = sessionFactory.openSession();
         return new InstituteRepository(session).getByDecription(description);
     }
@@ -101,7 +101,7 @@ public class InstituteService {
      * @param id id to be searched by
      * @return a list of institutes
      */
-    public Institute listById(Integer id) {
+    public Institute getById(Integer id) {
         Session session = sessionFactory.openSession();
         return new InstituteRepository(session).getById(id);
     }

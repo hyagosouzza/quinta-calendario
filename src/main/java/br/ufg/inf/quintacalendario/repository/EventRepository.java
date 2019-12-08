@@ -23,8 +23,7 @@ public class EventRepository extends AbstractRepository<Event> {
 
         parametros.put("descricao", "%" + description + "%");
 
-        List<Event> events = select(jpql.toString(), parametros);
-        return events;
+        return select(jpql.toString(), parametros);
     }
 
     public List<Event> getByCategory(long idCategory) {
@@ -35,9 +34,7 @@ public class EventRepository extends AbstractRepository<Event> {
         Map<String, Object> parametros = new HashMap<String, Object>();
         parametros.put("idCategoria", idCategory);
 
-        List<Event> events = select(jpql.toString(), parametros);
-
-        return events;
+        return select(jpql.toString(), parametros);
     }
 
     public List<Event> getByInstitute(long idInstitute) {
@@ -48,9 +45,7 @@ public class EventRepository extends AbstractRepository<Event> {
         Map<String, Object> parametros = new HashMap<String, Object>();
         parametros.put("idInstituto", idInstitute);
 
-        List<Event> events = select(jpql.toString(), parametros);
-
-        return events;
+        return select(jpql.toString(), parametros);
     }
 
     public List<Event> listarPorRegional(long idRegional) {
@@ -61,9 +56,7 @@ public class EventRepository extends AbstractRepository<Event> {
         Map<String, Object> parametros = new HashMap<String, Object>();
         parametros.put("idRegional", idRegional);
 
-        List<Event> events = select(jpql.toString(), parametros);
-
-        return events;
+        return select(jpql.toString(), parametros);
     }
 
     public List<Event> getByPeriod(Date initialDate, Date finalDate) {
@@ -76,9 +69,7 @@ public class EventRepository extends AbstractRepository<Event> {
         parametros.put("dataInicial", initialDate);
         parametros.put("dataFinal", finalDate);
 
-        List<Event> events = select(jpql.toString(), parametros);
-
-        return events;
+        return select(jpql.toString(), parametros);
     }
 
     public List<Event> getByInitialDate(Date initialDate) {
@@ -90,8 +81,6 @@ public class EventRepository extends AbstractRepository<Event> {
 
         parametros.put("dataInicial", initialDate);
 
-        List<Event> events = select(jpql.toString(), parametros);
-
-        return events;
+        return select(jpql.toString(), parametros);
     }
 }

@@ -21,7 +21,6 @@ public class CategoryRepository extends AbstractRepository<Category> {
         Map<String, Object> parametros = new HashMap<String, Object>();
         parametros.put("description", "%" + description + "%");
 
-        List<Category> categories = select(jpql.toString(), parametros);
-        return categories;
+        return select(jpql.toString(), parametros);
     }
 }

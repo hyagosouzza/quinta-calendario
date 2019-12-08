@@ -55,7 +55,7 @@ public class RegionalController extends AbstractController {
      */
     public List<Regional> listRecords() {
         RegionalService regionalService = new RegionalService(getAbstractSessionFactory());
-        return regionalService.listRecords();
+        return regionalService.getRecords();
     }
 
     /**
@@ -67,7 +67,7 @@ public class RegionalController extends AbstractController {
      */
     public List<Regional> listRecordsByDescription(String description) {
         RegionalService regionalService = new RegionalService(getAbstractSessionFactory());
-        return regionalService.listRecordsByDescription(description);
+        return regionalService.getRecordsByDescription(description);
     }
 
     /**
@@ -79,7 +79,7 @@ public class RegionalController extends AbstractController {
      */
     public Regional listById(Integer id) {
         RegionalService service = new RegionalService(getAbstractSessionFactory());
-        return service.listById(id);
+        return service.getById(id);
     }
 
     /**
@@ -100,7 +100,7 @@ public class RegionalController extends AbstractController {
      */
     public void remove(Integer id) {
         RegionalService regionalService = new RegionalService(getAbstractSessionFactory());
-        Regional regional = regionalService.listById(id);
+        Regional regional = regionalService.getById(id);
 
         if (Objects.isNull(regional)) {
             System.out.println("*******Codigo invalido*******");

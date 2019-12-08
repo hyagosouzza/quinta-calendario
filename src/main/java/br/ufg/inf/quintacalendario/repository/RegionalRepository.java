@@ -21,8 +21,7 @@ public class RegionalRepository extends AbstractRepository<Regional> {
         Map<String, Object> parametros = new HashMap<String, Object>();
 
         parametros.put("description", "%" + description + "%");
-
-        List<Regional> regionais = select(jpql.toString(), parametros);
-        return regionais;
+        
+        return select(jpql.toString(), parametros);
     }
 }

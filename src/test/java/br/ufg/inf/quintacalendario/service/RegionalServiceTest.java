@@ -73,14 +73,14 @@ public class RegionalServiceTest {
 
     @Test
     public void testListByIdReturnsNoOne() {
-        Regional regional = regionalServiceUnderTest.listById(409);
+        Regional regional = regionalServiceUnderTest.getById(409);
 
         assertNull(regional);
     }
 
     @Test
     public void testListByDescriptionReturnsEmptyList() {
-        List<Regional> regionals = regionalServiceUnderTest.listRecordsByDescription("409");
+        List<Regional> regionals = regionalServiceUnderTest.getRecordsByDescription("409");
 
         assertEquals(Collections.emptyList(), regionals);
     }

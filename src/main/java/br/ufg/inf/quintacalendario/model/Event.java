@@ -20,10 +20,16 @@ public class Event {
     @JoinColumn(name = "category")
     private Category category;
 
+    /**
+     * Foreign Key Attribute for Regional Table
+     */
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "regional_event", joinColumns = {@JoinColumn(name = "event")}, inverseJoinColumns = {@JoinColumn(name = "regional")})
-    private List<Regional> regionais;
+    private List<Regional> regionals;
 
+    /**
+     * Foreign Key Attribute for Institute Table
+     */
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "institute_event", joinColumns = {@JoinColumn(name = "event")}, inverseJoinColumns = {@JoinColumn(name = "institute")})
     private List<Institute> institutes;
@@ -76,12 +82,12 @@ public class Event {
         this.category = category;
     }
 
-    public List<Regional> getRegionais() {
-        return regionais;
+    public List<Regional> getRegionals() {
+        return regionals;
     }
 
-    public void setRegionais(List<Regional> regionais) {
-        this.regionais = regionais;
+    public void setRegionals(List<Regional> regionals) {
+        this.regionals = regionals;
     }
 
     public List<Institute> getInstitutes() {

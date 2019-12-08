@@ -69,7 +69,7 @@ public class CategoryService {
      * List all categories
      * @return a list of categories
      */
-    public List<Category> listRecords() {
+    public List<Category> getRecords() {
         Session session = sessionFactory.openSession();
         return new CategoryRepository(session).get();
     }
@@ -90,7 +90,7 @@ public class CategoryService {
      * @param description description to be searched by
      * @return a list of categories
      */
-    public List<Category> listRecordsByDescription(String description) {
+    public List<Category> getRecordsByDescription(String description) {
         Session session = sessionFactory.openSession();
         return new CategoryRepository(session).getByDecription(description);
     }
@@ -100,7 +100,7 @@ public class CategoryService {
      * @param id id to be searched by
      * @return a Category
      */
-    public Category listById(Integer id) {
+    public Category getById(Integer id) {
         Session session = sessionFactory.openSession();
         return new CategoryRepository(session).getById(id);
     }

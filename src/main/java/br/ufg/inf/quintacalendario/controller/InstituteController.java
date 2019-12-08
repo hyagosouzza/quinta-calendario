@@ -55,7 +55,7 @@ public class InstituteController extends AbstractController {
      */
     public List<Institute> listRecords() {
         InstituteService instituteService = new InstituteService(getAbstractSessionFactory());
-        return instituteService.listRecords();
+        return instituteService.getRecords();
     }
 
     /**
@@ -67,7 +67,7 @@ public class InstituteController extends AbstractController {
      */
     public List<Institute> listRecordsByDescription(String description) {
         InstituteService instituteService = new InstituteService(getAbstractSessionFactory());
-        return instituteService.listRecordsByDescription(description);
+        return instituteService.getRecordsByDescription(description);
     }
 
     /**
@@ -79,7 +79,7 @@ public class InstituteController extends AbstractController {
      */
     public Institute listById(Integer id) {
         InstituteService instituteService = new InstituteService(getAbstractSessionFactory());
-        return instituteService.listById(id);
+        return instituteService.getById(id);
     }
 
     /**
@@ -100,7 +100,7 @@ public class InstituteController extends AbstractController {
      */
     public void remove(Integer id) {
         InstituteService instituteService = new InstituteService(getAbstractSessionFactory());
-        Institute institute = instituteService.listById(id);
+        Institute institute = instituteService.getById(id);
 
         if (Objects.isNull(institute)) {
             System.out.println("******* Codigo invalido *******");

@@ -87,7 +87,7 @@ public class CategoryServiceTest {
     public void testRemove() {
         //setup
         generateRandomCategory();
-        List<Category> categories = categoryServiceUnderTest.listRecords();
+        List<Category> categories = categoryServiceUnderTest.getRecords();
         long id = categories.get(0).getId();
 
         //run
@@ -98,14 +98,14 @@ public class CategoryServiceTest {
 
     @Test
     public void testListByIdReturnsNoOne() {
-        Category category = categoryServiceUnderTest.listById(409);
+        Category category = categoryServiceUnderTest.getById(409);
 
         assertNull(category);
     }
 
     @Test
     public void testListByDescriptionReturnsEmptyList() {
-        List<Category> categories = categoryServiceUnderTest.listRecordsByDescription("409");
+        List<Category> categories = categoryServiceUnderTest.getRecordsByDescription("409");
 
         assertEquals(Collections.emptyList(), categories);
     }
@@ -118,7 +118,7 @@ public class CategoryServiceTest {
 
     private void limparObjetoEvento() {
         EventService eventService = new EventService(sessionFactory);
-        List<Event> events = eventService.listRecords();
+        List<Event> events = eventService.getRecords();
 
         events.forEach(eventService::clearObject);
     }
