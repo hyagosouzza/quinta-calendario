@@ -191,6 +191,7 @@ public class EventService {
 
         new EventoRepository(session).atualizar(event);
         transaction.commit();
+        session.close();
     }
 
     /**
