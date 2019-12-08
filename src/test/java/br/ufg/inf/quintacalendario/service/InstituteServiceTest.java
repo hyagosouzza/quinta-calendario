@@ -1,6 +1,5 @@
 package br.ufg.inf.quintacalendario.service;
 
-import br.ufg.inf.quintacalendario.controller.InstituteController;
 import br.ufg.inf.quintacalendario.main.Application;
 import br.ufg.inf.quintacalendario.model.Event;
 import br.ufg.inf.quintacalendario.model.Institute;
@@ -15,9 +14,8 @@ import java.io.PrintStream;
 import java.util.Collections;
 import java.util.List;
 
-import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class InstituteServiceTest {
 
