@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class CategoryService {
 
+    private static final Integer MIN_LENGTH = 4;
     private SessionFactory sessionFactory;
 
     /**
@@ -39,13 +40,13 @@ public class CategoryService {
 
             new CategoriaRepository(session).salvar(category);
             transaction.commit();
-            session.close();
 
             return true;
         } catch (Exception e) {
             transaction.rollback();
-            session.close();
             return false;
+        } finally {
+            session.close();
         }
     }
 
@@ -54,12 +55,12 @@ public class CategoryService {
      * @param category category to be validated
      * @throws IllegalArgumentException Validation unsuccessful
      */
-    private void validateCategory(Category category) throws IllegalArgumentException {
+    private void validateCategory(Category category) {
         if (category.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("O nome da categoria nao pode ser vazio");
         }
 
-        if ((category.getName().trim().length()) < 4) {
+        if ((category.getName().trim().length()) < MIN_LENGTH) {
             throw new IllegalArgumentException("O node da categoria deve ter no minimo 4 caracteres");
         }
     }

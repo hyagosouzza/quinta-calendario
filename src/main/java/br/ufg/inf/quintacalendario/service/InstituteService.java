@@ -14,6 +14,8 @@ import java.util.List;
  * @author Joao Pedro Pinheiro
  */
 public class InstituteService {
+
+    private static final Integer MIN_LENGTH = 4;
     private SessionFactory sessionFactory;
 
     /**
@@ -38,14 +40,14 @@ public class InstituteService {
 
             new InstitutoRepository(session).salvar(institute);
             transaction.commit();
-            session.close();
 
             return true;
 
         } catch (Exception e) {
             transaction.rollback();
-            session.close();
             return false;
+        } finally {
+            session.close();
         }
     }
 
@@ -54,12 +56,12 @@ public class InstituteService {
      * @param institute institute to be validated
      * @throws IllegalArgumentException Validation unsuccessful
      */
-    private void validadeInstitute(Institute institute) throws IllegalArgumentException {
+    private void validadeInstitute(Institute institute) {
         if (institute.getNome().trim().isEmpty()) {
             throw new IllegalArgumentException("O nome do instituto nao pode ser vazio");
         }
 
-        if ((institute.getNome().trim().length()) < 4) {
+        if ((institute.getNome().trim().length()) < MIN_LENGTH) {
             throw new IllegalArgumentException("O nome do instituto deve ter no minimo 4 caracteres");
         }
     }

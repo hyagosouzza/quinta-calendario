@@ -81,6 +81,8 @@ public class CategoryControllerTest {
 
 		//run
 		categoryControllerUnderTest.remove(409);
+
+		assertThat(outContent.toString(), containsString("Codigo invalido"));
 	}
 
 	@Test
