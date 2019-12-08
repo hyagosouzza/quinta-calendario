@@ -77,11 +77,11 @@ public class RegionalService {
      * @throws IllegalArgumentException Validation unsuccessful
      */
     private void validateRegional(Regional regional) {
-        if (regional.getNome().trim().isEmpty()) {
+        if (regional.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("O nome da regional nao pode ser vazio");
         }
 
-        if ((regional.getNome().trim().length()) < MIN_LENGTH) {
+        if ((regional.getName().trim().length()) < MIN_LENGTH) {
             throw new IllegalArgumentException("O node da regional deve ter no minimo 4 caracteres");
         }
     }

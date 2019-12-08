@@ -104,7 +104,7 @@ public class EventScreenConsole extends AbstractTelaCabecalho implements TelaIni
         if (events.isEmpty()) {
             System.out.println("Não existem eventos cadastrados com essa descrição");
         } else {
-            events.forEach(x -> System.out.println(x.getId() + " - " + x.getTitulo()));
+            events.forEach(x -> System.out.println(x.getId() + " - " + x.getTitle()));
         }
     }
 
@@ -117,14 +117,14 @@ public class EventScreenConsole extends AbstractTelaCabecalho implements TelaIni
         if (events.isEmpty()) {
             System.out.println("Não existe eventos cadastrados no periodo informado");
         } else {
-            events.forEach(x -> System.out.println(x.getId() + " - " + x.getDescricao()));
+            events.forEach(x -> System.out.println(x.getId() + " - " + x.getDescription()));
         }
     }
 
     private void listar() {
         EventController controller = new EventController();
         List<Event> events = controller.listRecords();
-        events.forEach(x -> System.out.println(x.getId() + " - " + x.getTitulo()));
+        events.forEach(x -> System.out.println(x.getId() + " - " + x.getTitle()));
     }
 
     private void cadastrar() {
@@ -155,7 +155,7 @@ public class EventScreenConsole extends AbstractTelaCabecalho implements TelaIni
         Integer codigoRegional = 0;
         do {
             Integer codigo;
-            regionais.stream().forEach(x -> System.out.println(x.getId() + " - " + x.getNome()));
+            regionais.stream().forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
             codigo = getEntradaConsole().pergunteInteiro("Digite o codigo da regional do evento");
 
             result = (regionais.stream().anyMatch(x -> x.getId() == codigo));
@@ -179,7 +179,7 @@ public class EventScreenConsole extends AbstractTelaCabecalho implements TelaIni
 
         do {
             Integer codigo;
-            institutes.stream().forEach(x -> System.out.println(x.getId() + " - " + x.getNome()));
+            institutes.stream().forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
             codigo = getEntradaConsole().pergunteInteiro("Digite o codigo do instituto do evento");
 
             result = (institutes.stream().anyMatch(x -> x.getId() == codigo));

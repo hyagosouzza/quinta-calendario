@@ -57,11 +57,11 @@ public class InstituteService {
      * @throws IllegalArgumentException Validation unsuccessful
      */
     private void validadeInstitute(Institute institute) {
-        if (institute.getNome().trim().isEmpty()) {
+        if (institute.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("O nome do instituto nao pode ser vazio");
         }
 
-        if ((institute.getNome().trim().length()) < MIN_LENGTH) {
+        if ((institute.getName().trim().length()) < MIN_LENGTH) {
             throw new IllegalArgumentException("O nome do instituto deve ter no minimo 4 caracteres");
         }
     }

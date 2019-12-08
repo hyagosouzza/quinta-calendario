@@ -99,7 +99,7 @@ public class InstituteScreenConsole extends AbstractTelaCabecalho implements Tel
                 System.out.println("Instituto não encontrado");
                 editar();
             } else {
-                System.out.println(institute.getId() + " - " + institute.getNome());
+                System.out.println(institute.getId() + " - " + institute.getName());
 
                 String nome = getEntradaConsole().pergunteString("Digite o novo nome do Instituto", true);
                 new InstituteController().edit(codigo, nome);
@@ -120,7 +120,7 @@ public class InstituteScreenConsole extends AbstractTelaCabecalho implements Tel
     }
 
     private void printarinstitutos(List<Institute> institutes) {
-        institutes.stream().forEach(x -> System.out.println(x.getId() + " - " + x.getNome()));
+        institutes.stream().forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
     }
 
     @Override

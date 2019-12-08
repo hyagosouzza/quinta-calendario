@@ -11,7 +11,7 @@ public class Regional {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String nome;
+    private String name;
 
     public long getId() {
         return id;
@@ -21,11 +21,11 @@ public class Regional {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setName(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 }

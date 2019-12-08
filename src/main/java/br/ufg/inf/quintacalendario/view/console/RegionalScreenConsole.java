@@ -95,11 +95,11 @@ public class RegionalScreenConsole extends AbstractTelaCabecalho implements Tela
 
             Regional regional = new RegionalController().listById(codigo);
 
-            if (regional.getNome().isEmpty()) {
+            if (regional.getName().isEmpty()) {
                 System.out.println("Regional não encontrada");
                 editar();
             } else {
-                System.out.println(regional.getId() + " - " + regional.getNome());
+                System.out.println(regional.getId() + " - " + regional.getName());
 
                 String nome = getEntradaConsole().pergunteString("Digite o novo nome da Regional", true);
                 new RegionalController().edit(codigo, nome);
@@ -120,7 +120,7 @@ public class RegionalScreenConsole extends AbstractTelaCabecalho implements Tela
     }
 
     private void printarRegionais(List<Regional> regionais) {
-        regionais.stream().forEach(x -> System.out.println(x.getId() + " - " + x.getNome()));
+        regionais.stream().forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
     }
 
     @Override
