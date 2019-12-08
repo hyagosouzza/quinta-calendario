@@ -38,14 +38,14 @@ public class EventService {
         try {
             new EventoRepository(session).salvar(event);
             transaction.commit();
-            session.close();
 
             return true;
         } catch (Exception e) {
             transaction.rollback();
-            session.close();
             System.out.println(e.getMessage());
             return false;
+        } finally {
+            session.close();
         }
     }
 

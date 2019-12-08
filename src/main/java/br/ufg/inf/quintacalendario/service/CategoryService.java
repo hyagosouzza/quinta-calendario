@@ -40,13 +40,13 @@ public class CategoryService {
 
             new CategoriaRepository(session).salvar(category);
             transaction.commit();
-            session.close();
 
             return true;
         } catch (Exception e) {
             transaction.rollback();
-            session.close();
             return false;
+        } finally {
+            session.close();
         }
     }
 

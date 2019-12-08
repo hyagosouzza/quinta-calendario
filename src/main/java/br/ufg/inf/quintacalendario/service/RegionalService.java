@@ -41,14 +41,14 @@ public class RegionalService {
 
             new RegionalRepository(session).salvar(regional);
             transaction.commit();
-            session.close();
 
             return true;
 
         } catch (Exception e) {
             transaction.rollback();
-            session.close();
             return false;
+        } finally {
+            session.close();
         }
     }
 

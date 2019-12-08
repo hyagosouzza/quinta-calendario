@@ -40,14 +40,14 @@ public class InstituteService {
 
             new InstitutoRepository(session).salvar(institute);
             transaction.commit();
-            session.close();
 
             return true;
 
         } catch (Exception e) {
             transaction.rollback();
-            session.close();
             return false;
+        } finally {
+            session.close();
         }
     }
 
