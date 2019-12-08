@@ -110,7 +110,7 @@ public class RegionalService {
      * @param id id to be searched by
      * @return a list of regionals
      */
-    public Regional listById(long id) {
+    public Regional getById(long id) {
         Session session = sessionFactory.openSession();
         return new RegionalRepository(session).listarPorId(id);
     }

@@ -75,9 +75,9 @@ public class CategoryController extends AbstractController {
      * @return category with specified identifier
      * @see Category
      */
-    public Category listById(Integer id) {
+    public Category getById(Integer id) {
         CategoryService categoryService = new CategoryService(getAbstractSessionFactory());
-        return categoryService.listById(id);
+        return categoryService.getById(id);
     }
 
     /**
@@ -98,7 +98,7 @@ public class CategoryController extends AbstractController {
      */
     public void remove(Integer id) {
         CategoryService categoryService = new CategoryService(getAbstractSessionFactory());
-        Category category = categoryService.listById(id);
+        Category category = categoryService.getById(id);
 
         if (Objects.isNull(category)) {
             System.out.println("******* Codigo invalido *******");

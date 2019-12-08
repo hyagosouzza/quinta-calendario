@@ -93,7 +93,7 @@ public class CategoryScreenConsole extends AbstractTelaCabecalho implements Tela
             printarcategorias(categories);
             Integer codigo = getEntradaConsole().pergunteInteiro("Digite o codigo da Categoria que deseja editar");
 
-            Category Category = new CategoryController().listById(codigo);
+            Category Category = new CategoryController().getById(codigo);
 
             if (Category.getName().isEmpty()) {
                 System.out.println("Categoria não encontrada");

@@ -73,7 +73,7 @@ public class RegionalServiceTest {
 
     @Test
     public void testListByIdReturnsNoOne() {
-        Regional regional = regionalServiceUnderTest.listById(409);
+        Regional regional = regionalServiceUnderTest.getById(409);
 
         assertNull(regional);
     }

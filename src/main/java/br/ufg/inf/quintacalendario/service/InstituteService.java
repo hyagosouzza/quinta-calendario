@@ -101,7 +101,7 @@ public class InstituteService {
      * @param id id to be searched by
      * @return a list of institutes
      */
-    public Institute listById(Integer id) {
+    public Institute getById(Integer id) {
         Session session = sessionFactory.openSession();
         return new InstitutoRepository(session).listarPorId(id);
     }

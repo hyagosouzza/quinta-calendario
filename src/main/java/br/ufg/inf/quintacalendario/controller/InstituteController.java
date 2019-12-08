@@ -75,9 +75,9 @@ public class InstituteController extends AbstractController {
      * @return institute with specified identifier
      * @see Institute
      */
-    public Institute listById(Integer id) {
+    public Institute getById(Integer id) {
         InstituteService instituteService = new InstituteService(getAbstractSessionFactory());
-        return instituteService.listById(id);
+        return instituteService.getById(id);
     }
 
     /**
@@ -98,7 +98,7 @@ public class InstituteController extends AbstractController {
      */
     public void remove(Integer id) {
         InstituteService instituteService = new InstituteService(getAbstractSessionFactory());
-        Institute institute = instituteService.listById(id);
+        Institute institute = instituteService.getById(id);
 
         if (Objects.isNull(institute)) {
             System.out.println("******* Codigo invalido *******");

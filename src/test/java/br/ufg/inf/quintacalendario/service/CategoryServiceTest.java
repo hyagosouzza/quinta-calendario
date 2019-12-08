@@ -98,7 +98,7 @@ public class CategoryServiceTest {
 
     @Test
     public void testListByIdReturnsNoOne() {
-        Category category = categoryServiceUnderTest.listById(409);
+        Category category = categoryServiceUnderTest.getById(409);
 
         assertNull(category);
     }

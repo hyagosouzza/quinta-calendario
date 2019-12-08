@@ -70,15 +70,15 @@ public class EventController extends AbstractController {
 			data = from(finalDate);
 			event.setFinalDate(data);
 
-			event.setCategory(new CategoryService(getAbstractSessionFactory()).listById(categoryId));
+			event.setCategory(new CategoryService(getAbstractSessionFactory()).getById(categoryId));
 
 			List<Institute> institutes = new ArrayList<>();
-			institutes.add(new InstituteService(getAbstractSessionFactory()).listById(instituteId));
+			institutes.add(new InstituteService(getAbstractSessionFactory()).getById(instituteId));
 
 			event.setInstitutes(institutes);
 
 			List<Regional> regionals = new ArrayList<>();
-			regionals.add(new RegionalService(getAbstractSessionFactory()).listById(regionalId));
+			regionals.add(new RegionalService(getAbstractSessionFactory()).getById(regionalId));
 
 			event.setRegionais(regionals);
 
@@ -148,9 +148,9 @@ public class EventController extends AbstractController {
 	 * @return event with specified identifier
 	 * @see Event
 	 */
-	public Event listById(Integer id) {
+	public Event getById(Integer id) {
 		EventService eventService = new EventService(getAbstractSessionFactory());
-		return eventService.listById(id);
+		return eventService.getById(id);
 	}
 
     /**

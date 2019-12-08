@@ -117,7 +117,7 @@ public class EventControllerTest {
 
 	@Test
 	public void testListByIdReturnsNoOne() {
-		Event event = eventControllerUnderTest.listById(409);
+		Event event = eventControllerUnderTest.getById(409);
 
 		assertNull(event);
 	}

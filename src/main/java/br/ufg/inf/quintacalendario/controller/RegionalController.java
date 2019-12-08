@@ -75,9 +75,9 @@ public class RegionalController extends AbstractController {
      * @return regional with specified identifier
      * @see Regional
      */
-    public Regional listById(Integer id) {
+    public Regional getById(Integer id) {
         RegionalService service = new RegionalService(getAbstractSessionFactory());
-        return service.listById(id);
+        return service.getById(id);
     }
 
     /**
@@ -98,7 +98,7 @@ public class RegionalController extends AbstractController {
      */
     public void remove(Integer id) {
         RegionalService regionalService = new RegionalService(getAbstractSessionFactory());
-        Regional regional = regionalService.listById(id);
+        Regional regional = regionalService.getById(id);
 
         if (Objects.isNull(regional)) {
             System.out.println("*******Codigo invalido*******");

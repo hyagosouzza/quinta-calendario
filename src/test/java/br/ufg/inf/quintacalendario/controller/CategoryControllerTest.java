@@ -100,7 +100,7 @@ public class CategoryControllerTest {
 
 	@Test
 	public void testListByIdReturnsNoOne() {
-		Category category = categoryControllerUnderTest.listById(409);
+		Category category = categoryControllerUnderTest.getById(409);
 
 		assertNull(category);
 	}

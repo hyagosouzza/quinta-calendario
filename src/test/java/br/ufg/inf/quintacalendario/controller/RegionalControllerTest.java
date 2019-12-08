@@ -68,7 +68,7 @@ public class RegionalControllerTest {
 
 	@Test
 	public void testListByIdReturnsNoOne() {
-		Regional regional = regionalControllerUnderTest.listById(409);
+		Regional regional = regionalControllerUnderTest.getById(409);
 
 		assertNull(regional);
 	}

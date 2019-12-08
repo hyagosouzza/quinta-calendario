@@ -95,7 +95,7 @@ public class InstituteServiceTest {
 
     @Test
     public void testListByIdReturnsNoOne() {
-        Institute regional = instituteServiceUnderTest.listById(409);
+        Institute regional = instituteServiceUnderTest.getById(409);
 
         assertNull(regional);
     }

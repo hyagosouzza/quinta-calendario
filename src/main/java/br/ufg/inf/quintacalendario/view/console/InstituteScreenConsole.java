@@ -93,7 +93,7 @@ public class InstituteScreenConsole extends AbstractTelaCabecalho implements Tel
             printarinstitutos(institutes);
             Integer codigo = getEntradaConsole().pergunteInteiro("Digite o codigo da Instituto que deseja editar");
 
-            Institute institute = new InstituteController().listById(codigo);
+            Institute institute = new InstituteController().getById(codigo);
 
             if (institute == null) {
                 System.out.println("Instituto não encontrado");

@@ -100,7 +100,7 @@ public class CategoryService {
      * @param id id to be searched by
      * @return a Category
      */
-    public Category listById(Integer id) {
+    public Category getById(Integer id) {
         Session session = sessionFactory.openSession();
         return new CategoriaRepository(session).listarPorId(id);
     }

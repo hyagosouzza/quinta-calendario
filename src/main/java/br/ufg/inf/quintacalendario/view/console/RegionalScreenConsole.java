@@ -93,7 +93,7 @@ public class RegionalScreenConsole extends AbstractTelaCabecalho implements Tela
             printarRegionais(regionais);
             Integer codigo = getEntradaConsole().pergunteInteiro("Digite o codigo da regional que deseja editar");
 
-            Regional regional = new RegionalController().listById(codigo);
+            Regional regional = new RegionalController().getById(codigo);
 
             if (regional.getNome().isEmpty()) {
                 System.out.println("Regional não encontrada");

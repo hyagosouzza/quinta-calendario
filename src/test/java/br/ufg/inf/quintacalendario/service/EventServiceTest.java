@@ -109,7 +109,7 @@ public class EventServiceTest {
 
     @Test
     public void testListByIdReturnsNoOne() {
-        Event event = eventServiceUnderTest.listById(409);
+        Event event = eventServiceUnderTest.getById(409);
 
         assertNull(event);
     }

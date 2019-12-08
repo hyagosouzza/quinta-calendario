@@ -85,7 +85,7 @@ public class EventService {
      * @param id id of the event to be searched
      * @return a Event
      */
-    public Event listById(long id) {
+    public Event getById(long id) {
         Session session = sessionFactory.openSession();
         return new EventoRepository(session).listarPorId(id);
     }

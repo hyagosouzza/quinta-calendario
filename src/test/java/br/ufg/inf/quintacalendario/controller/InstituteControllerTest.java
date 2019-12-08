@@ -100,7 +100,7 @@ public class InstituteControllerTest {
 
 	@Test
 	public void testListByIdReturnsNoOne() {
-		Institute regional = instituteControllerUnderTest.listById(409);
+		Institute regional = instituteControllerUnderTest.getById(409);
 
 		assertNull(regional);
 	}
