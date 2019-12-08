@@ -1,19 +1,17 @@
 package br.ufg.inf.quintacalendario.controller;
 
-import antlr.StringUtils;
 import br.ufg.inf.quintacalendario.main.Application;
 import br.ufg.inf.quintacalendario.model.Event;
 import br.ufg.inf.quintacalendario.model.Institute;
 import br.ufg.inf.quintacalendario.service.CategoryService;
 import br.ufg.inf.quintacalendario.service.EventService;
-import br.ufg.inf.quintacalendario.service.InstitutoService;
+import br.ufg.inf.quintacalendario.service.InstituteService;
 import br.ufg.inf.quintacalendario.service.RegionalService;
 import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.internal.util.StringUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -39,17 +37,17 @@ public class InstituteControllerTest {
 		sessionFactory = Application.getInstance().getSessionFactory();
 
 		limparObjetoEvento();
-		new EventService(sessionFactory).limparTabela();
-		new RegionalService(sessionFactory).limparTabela();
-		new CategoryService(sessionFactory).limparTabela();
-		new InstitutoService(sessionFactory).limparTabela();
+		new EventService(sessionFactory).truncateTable();
+		new RegionalService(sessionFactory).truncateTable();
+		new CategoryService(sessionFactory).truncateTable();
+		new InstituteService(sessionFactory).truncateTable();
 	}
 
 	@After
 	public void restoreStreams() {
 		System.setOut(originalOut);
 
-		new InstitutoService(sessionFactory).limparTabela();
+		new InstituteService(sessionFactory).truncateTable();
 	}
 
 	@Test
@@ -122,7 +120,7 @@ public class InstituteControllerTest {
 		EventService eventService = new EventService(sessionFactory);
 		List<Event> events = eventService.listRecords();
 
-		events.stream().forEach(x -> eventService.limparObjeto(x));
+		events.stream().forEach(x -> eventService.clearObject(x));
 	}
 
 }

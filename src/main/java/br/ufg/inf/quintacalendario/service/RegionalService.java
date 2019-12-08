@@ -8,74 +8,117 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
+/**
+ * Service responsible for validating and communicating with the RegionalRepository.
+ *
+ * @author Joao Pedro Pinheiro
+ */
 public class RegionalService {
+
+    private static final Integer MIN_LENGTH = 4;
     private SessionFactory sessionFactory;
 
-    public RegionalService(SessionFactory session) {
+    /**
+     * Class's default constructor
+     * @param sessionFactory entity's SessionFactory
+     */
+    public RegionalService(SessionFactory sessionFactory) {
         super();
-        sessionFactory = session;
+        this.sessionFactory = sessionFactory;
     }
 
+    /**
+     * Persist the object into the Database
+     * @param regional regional to be persisted
+     * @return true if the operation was successful or false if it wasn't
+     */
     public boolean save(Regional regional) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
 
-            validarRegional(regional);
+            validateRegional(regional);
 
             new RegionalRepository(session).salvar(regional);
             transaction.commit();
-            session.close();
 
             return true;
 
         } catch (Exception e) {
             transaction.rollback();
-            session.close();
             return false;
+        } finally {
+            session.close();
         }
     }
 
-    public void edit(long codigo, String descricao) {
+    /**
+     * Edit one instance of regional in the database
+     * @param id id of the regional to be edited
+     * @param description new regional's description
+     */
+    public void edit(long id, String description) {
         Session session = sessionFactory.openSession();
-        RegionalRepository repository = new RegionalRepository(session);
-        Regional regional = repository.listarPorId(codigo);
+        RegionalRepository regionalRepository = new RegionalRepository(session);
+        Regional regional = regionalRepository.listarPorId(id);
 
         Transaction transaction = session.beginTransaction();
 
-        regional.setName(descricao);
-        repository.atualizar(regional);
+        regional.setName(description);
+        regionalRepository.atualizar(regional);
 
         transaction.commit();
         session.close();
     }
 
-    public void validarRegional(Regional regional) throws IllegalArgumentException {
+    /**
+     * Validate a single instance of Regional
+     * @param regional regional to be validated
+     * @throws IllegalArgumentException Validation unsuccessful
+     */
+    private void validateRegional(Regional regional) {
         if (regional.getNome().trim().isEmpty()) {
             throw new IllegalArgumentException("O nome da regional nao pode ser vazio");
         }
 
-        if ((regional.getNome().trim().length()) < 4) {
+        if ((regional.getNome().trim().length()) < MIN_LENGTH) {
             throw new IllegalArgumentException("O node da regional deve ter no minimo 4 caracteres");
         }
     }
 
+    /**
+     * List all regionals
+     * @return a list of regionals
+     */
     public List<Regional> listRecords() {
         Session session = sessionFactory.openSession();
         return new RegionalRepository(session).listar();
     }
 
-    public List<Regional> listRecordsByDescription(String descricao) {
+    /**
+     * List regionals by description
+     * @param description description to be searched by
+     * @return a list of regionals
+     */
+    public List<Regional> listRecordsByDescription(String description) {
         Session session = sessionFactory.openSession();
-        return new RegionalRepository(session).listarPorDescricao(descricao);
+        return new RegionalRepository(session).listarPorDescricao(description);
     }
 
+    /**
+     * List regionals by id
+     * @param id id to be searched by
+     * @return a list of regionals
+     */
     public Regional listById(long id) {
         Session session = sessionFactory.openSession();
         return new RegionalRepository(session).listarPorId(id);
     }
 
-    public void limparTabela() {
+    /**
+     * Delete all regionals in the database
+     */
+    public void truncateTable() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         new RegionalRepository(session).limparTabela();
@@ -83,10 +126,14 @@ public class RegionalService {
         session.close();
     }
 
-    public void remove(long codigo) {
+    /**
+     * Delete a single regional from the database
+     * @param id id of the regional to be deleted
+     */
+    public void remove(long id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        new RegionalRepository(session).remover(codigo);
+        new RegionalRepository(session).remover(id);
         transaction.commit();
         session.close();
     }

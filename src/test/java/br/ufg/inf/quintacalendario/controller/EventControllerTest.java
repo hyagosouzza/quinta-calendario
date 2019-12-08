@@ -7,7 +7,7 @@ import br.ufg.inf.quintacalendario.model.Institute;
 import br.ufg.inf.quintacalendario.model.Regional;
 import br.ufg.inf.quintacalendario.service.CategoryService;
 import br.ufg.inf.quintacalendario.service.EventService;
-import br.ufg.inf.quintacalendario.service.InstitutoService;
+import br.ufg.inf.quintacalendario.service.InstituteService;
 import br.ufg.inf.quintacalendario.service.RegionalService;
 import org.hibernate.SessionFactory;
 import org.junit.After;
@@ -50,16 +50,16 @@ public class EventControllerTest {
 		sessionFactory = Application.getInstance().getSessionFactory();
 
 		limparObjetoEvento();
-		new RegionalService(sessionFactory).limparTabela();
-		new EventService(sessionFactory).limparTabela();
-		new InstitutoService(sessionFactory).limparTabela();
-		new CategoryService(sessionFactory).limparTabela();
+		new RegionalService(sessionFactory).truncateTable();
+		new EventService(sessionFactory).truncateTable();
+		new InstituteService(sessionFactory).truncateTable();
+		new CategoryService(sessionFactory).truncateTable();
 	}
 
 	@After
 	public void restoreStreams() {
 		System.setOut(originalOut);
-		new EventService(sessionFactory).limparTabela();
+		new EventService(sessionFactory).truncateTable();
 	}
 
 	@Test
@@ -151,6 +151,6 @@ public class EventControllerTest {
 		EventService eventService = new EventService(sessionFactory);
 		List<Event> events = eventService.listRecords();
 
-		events.forEach(eventService::limparObjeto);
+		events.forEach(eventService::clearObject);
 	}
 }

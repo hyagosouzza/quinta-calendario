@@ -8,56 +8,76 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
+/**
+ * Service responsible for validating and communicating with the CategoryRepository.
+ *
+ * @author Joao Pedro Pinheiro
+ */
 public class CategoryService {
 
+    private static final Integer MIN_LENGTH = 4;
     private SessionFactory sessionFactory;
 
-    public CategoryService(SessionFactory session) {
+    /**
+     * Class's default constructor
+     * @param sessionFactory entity's SessionFactory
+     */
+    public CategoryService(SessionFactory sessionFactory) {
         super();
-        sessionFactory = session;
+        this.sessionFactory = sessionFactory;
     }
 
+    /**
+     * Persist the object into the Database
+     * @param category category to be persisted
+     * @return true if the operation was successful or false if it wasn't
+     */
     public boolean save(Category category) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            validarCategoria(category);
+            validateCategory(category);
 
             new CategoriaRepository(session).salvar(category);
             transaction.commit();
-            session.close();
 
             return true;
         } catch (Exception e) {
             transaction.rollback();
-            session.close();
             return false;
+        } finally {
+            session.close();
         }
     }
 
-    public List<Category> pesquisarPorDescricao(String descricao) {
-        Session session = sessionFactory.openSession();
-        CategoriaRepository categoriaRepository = new CategoriaRepository(session);
-        List<Category> categories = categoriaRepository.listarPorDescricao(descricao);
-        return categories;
-    }
-
-    public void validarCategoria(Category category) throws IllegalArgumentException {
+    /**
+     * Validate a single instance of Category
+     * @param category category to be validated
+     * @throws IllegalArgumentException Validation unsuccessful
+     */
+    private void validateCategory(Category category) {
         if (category.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("O nome da categoria nao pode ser vazio");
         }
 
-        if ((category.getName().trim().length()) < 4) {
+        if ((category.getName().trim().length()) < MIN_LENGTH) {
             throw new IllegalArgumentException("O node da categoria deve ter no minimo 4 caracteres");
         }
     }
 
+    /**
+     * List all categories
+     * @return a list of categories
+     */
     public List<Category> listRecords() {
         Session session = sessionFactory.openSession();
         return new CategoriaRepository(session).listar();
     }
 
-    public void limparTabela() {
+    /**
+     * Delete all categories in the database
+     */
+    public void truncateTable() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         new CategoriaRepository(session).limparTabela();
@@ -65,34 +85,53 @@ public class CategoryService {
         session.close();
     }
 
-    public List<Category> listRecordsByDescription(String descricao) {
+    /**
+     * List categories by description
+     * @param description description to be searched by
+     * @return a list of categories
+     */
+    public List<Category> listRecordsByDescription(String description) {
         Session session = sessionFactory.openSession();
-        return new CategoriaRepository(session).listarPorDescricao(descricao);
+        return new CategoriaRepository(session).listarPorDescricao(description);
     }
 
-    public Category listById(Integer codigo) {
+    /**
+     * Get single category by id
+     * @param id id to be searched by
+     * @return a Category
+     */
+    public Category listById(Integer id) {
         Session session = sessionFactory.openSession();
-        return new CategoriaRepository(session).listarPorId(codigo);
+        return new CategoriaRepository(session).listarPorId(id);
     }
 
-    public void edit(Integer codigo, String nome) {
+    /**
+     * Edit one instance of category in the database
+     * @param id id of the category to be edited
+     * @param name new category's name
+     */
+    public void edit(Integer id, String name) {
         Session session = sessionFactory.openSession();
         CategoriaRepository repository = new CategoriaRepository(session);
-        Category category = repository.listarPorId(codigo);
+        Category category = repository.listarPorId(id);
 
         Transaction transaction = session.beginTransaction();
 
-        category.setName(nome);
+        category.setName(name);
         repository.atualizar(category);
 
         transaction.commit();
         session.close();
     }
 
-    public void remove(Integer codigo) {
+    /**
+     * Delete a single category in the database
+     * @param id id of the category to be deleted
+     */
+    public void remove(Integer id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        new CategoriaRepository(session).remover(codigo);
+        new CategoriaRepository(session).remover(id);
         transaction.commit();
         session.close();
     }
