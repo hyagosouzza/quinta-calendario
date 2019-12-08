@@ -14,6 +14,8 @@ import java.util.List;
  * @author Joao Pedro Pinheiro
  */
 public class RegionalService {
+
+    private final Integer MIN_LENGTH = 4;
     private SessionFactory sessionFactory;
 
     /**
@@ -74,12 +76,12 @@ public class RegionalService {
      * @param regional regional to be validated
      * @throws IllegalArgumentException Validation unsuccessful
      */
-    private void validateRegional(Regional regional) throws IllegalArgumentException {
+    private void validateRegional(Regional regional) {
         if (regional.getNome().trim().isEmpty()) {
             throw new IllegalArgumentException("O nome da regional nao pode ser vazio");
         }
 
-        if ((regional.getNome().trim().length()) < 4) {
+        if ((regional.getNome().trim().length()) < MIN_LENGTH) {
             throw new IllegalArgumentException("O node da regional deve ter no minimo 4 caracteres");
         }
     }
