@@ -18,10 +18,10 @@ public class RegionalRepository extends AbstractRepository<Regional> {
         StringBuilder jpql = new StringBuilder();
         jpql.append("Select t from regional t where t.nome like :description");
 
-        Map<String, Object> parametros = new HashMap<>();
+        Map<String, Object> parametersQuery = new HashMap<>();
 
-        parametros.put("description", "%" + description + "%");
+        parametersQuery.put("description", "%" + description + "%");
 
-        return select(jpql.toString(), parametros);
+        return select(jpql.toString(), parametersQuery);
     }
 }
