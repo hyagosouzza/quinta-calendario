@@ -16,13 +16,13 @@ public class InstituteRepository extends AbstractRepository<Institute> {
     @Override
     public List<Institute> getByDecription(String description) {
         StringBuilder jpql = new StringBuilder();
-        jpql.append("Select t from institute t where t.nome like :description");
+        jpql.append("Select t from institute t where t.name like :description");
 
-        Map<String, Object> parametros = new HashMap<String, Object>();
+        Map<String, Object> parametersQuery = new HashMap<>();
 
-        parametros.put("description", "%" + description + "%");
+        parametersQuery.put("description", "%" + description + "%");
 
-        return select(jpql.toString(), parametros);
+        return select(jpql.toString(), parametersQuery);
     }
 
 }

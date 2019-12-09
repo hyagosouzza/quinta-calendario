@@ -91,6 +91,26 @@ public class EventServiceTest {
     }
 
     @Test
+    public void testListRecordsByDescription() {
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy");
+            Date date = dateFormat.parse("30/03/2002");
+
+            Event event = new Event();
+            event.setDescription("Test description");
+            event.setTitle(title);
+            event.setFinalDate(date);
+            eventServiceUnderTest.save(event);
+
+            List<Event> eventsByDescription = eventServiceUnderTest.getRecordsByDescription("Test description");
+
+            assertEquals(1, eventsByDescription.size());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void testListByPeriod() throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy");
         Date startDate = dateFormat.parse("30/03/2002");
@@ -102,6 +122,21 @@ public class EventServiceTest {
         startDate = dateFormat.parse(initialDate);
         endDate = dateFormat.parse("30/04/2002");
         List<Event> events = eventServiceUnderTest.getByPeriod(startDate, endDate);
+
+        assertEquals(2, events.size());
+        assertEquals(0, noOneEvents.size());
+    }
+
+    @Test
+    public void testListByInitialDate() throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy");
+        Date startDate = dateFormat.parse("30/03/2002");
+
+        generateTwoRandomEvents();
+        List<Event> noOneEvents = eventServiceUnderTest.getByDate(startDate);
+
+        startDate = dateFormat.parse(initialDate);
+        List<Event> events = eventServiceUnderTest.getByDate(startDate);
 
         assertEquals(2, events.size());
         assertEquals(0, noOneEvents.size());

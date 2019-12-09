@@ -17,70 +17,37 @@ public class EventRepository extends AbstractRepository<Event> {
     @Override
     public List<Event> getByDecription(String description) {
         StringBuilder jpql = new StringBuilder();
-        jpql.append("Select t from event t where t.descricao like :descricao");
+        jpql.append("Select t from event t where t.description like :description");
 
-        Map<String, Object> parametros = new HashMap<String, Object>();
+        Map<String, Object> parametersQuery = new HashMap<>();
 
-        parametros.put("descricao", "%" + description + "%");
+        parametersQuery.put("description", "%" + description + "%");
 
-        return select(jpql.toString(), parametros);
-    }
-
-    public List<Event> getByCategory(long idCategory) {
-        StringBuilder jpql = new StringBuilder();
-        jpql.append("select t from event t inner join t.category c ")
-                .append("where c.id = :idCategoria");
-
-        Map<String, Object> parametros = new HashMap<String, Object>();
-        parametros.put("idCategoria", idCategory);
-
-        return select(jpql.toString(), parametros);
-    }
-
-    public List<Event> getByInstitute(long idInstitute) {
-        StringBuilder jpql = new StringBuilder();
-        jpql.append("select t from event t inner join t.institutes i ")
-                .append("where i.id = :idInstituto");
-
-        Map<String, Object> parametros = new HashMap<String, Object>();
-        parametros.put("idInstituto", idInstitute);
-
-        return select(jpql.toString(), parametros);
-    }
-
-    public List<Event> listarPorRegional(long idRegional) {
-        StringBuilder jpql = new StringBuilder();
-        jpql.append("select t from event t inner join t.regionais r ")
-                .append("where r.id = :idRegional");
-
-        Map<String, Object> parametros = new HashMap<String, Object>();
-        parametros.put("idRegional", idRegional);
-
-        return select(jpql.toString(), parametros);
+        return select(jpql.toString(), parametersQuery);
     }
 
     public List<Event> getByPeriod(Date initialDate, Date finalDate) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("select t from event t ")
-                .append("where t.dataInicial >= :dataInicial and t.dataFinal <= :dataFinal");
+                .append("where t.initialDate >= :initialDate and t.finalDate <= :finalDate");
 
-        Map<String, Object> parametros = new HashMap<String, Object>();
+        Map<String, Object> parametersQuery = new HashMap<>();
 
-        parametros.put("dataInicial", initialDate);
-        parametros.put("dataFinal", finalDate);
+        parametersQuery.put("initialDate", initialDate);
+        parametersQuery.put("finalDate", finalDate);
 
-        return select(jpql.toString(), parametros);
+        return select(jpql.toString(), parametersQuery);
     }
 
     public List<Event> getByInitialDate(Date initialDate) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("select t from event t ")
-                .append("where t.dataInicial = :dataInicial");
+                .append("where t.initialDate = :initialDate");
 
-        Map<String, Object> parametros = new HashMap<String, Object>();
+        Map<String, Object> parametersQuery = new HashMap<>();
 
-        parametros.put("dataInicial", initialDate);
+        parametersQuery.put("initialDate", initialDate);
 
-        return select(jpql.toString(), parametros);
+        return select(jpql.toString(), parametersQuery);
     }
 }

@@ -54,10 +54,10 @@ public abstract class AbstractRepository<T> implements IRepository<T> {
         return list;
     }
 
-    public List<T> select(String jpql, Map<String, Object> parametros) {
+    public List<T> select(String jpql, Map<String, Object> parametersQuery) {
         Query<T> query = session.createQuery(jpql, modelClass);
 
-        for (Map.Entry<String, Object> parameter : parametros.entrySet()) {
+        for (Map.Entry<String, Object> parameter : parametersQuery.entrySet()) {
             query.setParameter(parameter.getKey(), parameter.getValue());
         }
 
