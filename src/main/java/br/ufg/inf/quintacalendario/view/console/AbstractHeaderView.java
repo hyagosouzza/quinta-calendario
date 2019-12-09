@@ -9,7 +9,9 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
 public class AbstractHeaderView implements HeaderView, OutputAware {
-    private static final String HEADER_PATH = "/view/header.txt";
+
+    private static final String PATH_DELIMITER = "/";
+    private static final String HEADER_PATH = PATH_DELIMITER.concat("view/header.txt");
     private String headerContent;
     protected PrintStream output;
 

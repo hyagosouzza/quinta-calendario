@@ -54,7 +54,7 @@ public class ConsoleWrapper extends PrintStream {
      * @param question O texto da pergutna que deve ser feita
      * @return O texto que o usuário inseriu
      */
-    public String askForString(String question) throws NumberFormatException {
+    public String askForString(String question) {
         println(question);
         return scanner.nextLine();
     }
@@ -66,7 +66,7 @@ public class ConsoleWrapper extends PrintStream {
      * @param required Flag para indicar se deve bloquear texto em branco
      * @return O texto que o usuário inseriu
      */
-    public String askForString(String question, boolean required) throws NumberFormatException {
+    public String askForString(String question, boolean required) {
         String input = askForString(question);
 
         if (required) {

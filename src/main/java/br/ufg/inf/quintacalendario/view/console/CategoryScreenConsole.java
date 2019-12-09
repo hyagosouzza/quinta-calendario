@@ -109,13 +109,13 @@ public class CategoryScreenConsole extends AbstractHeaderView implements HomeVie
             displayCategories(categories);
             Integer codigo = console.askForInteger("Digite o codigo da Categoria que deseja editar");
 
-            Category Category = categoryController.getById(codigo);
+            Category category = categoryController.getById(codigo);
 
-            if (Category.getName().isEmpty()) {
+            if (category.getName().isEmpty()) {
                 console.println("Categoria não encontrada");
                 editCategory();
             } else {
-                console.println(Category.getId() + " - " + Category.getName());
+                console.println(category.getId() + " - " + category.getName());
 
                 String name = console.askForString("Digite o novo nome da Categoria", true);
                 categoryController.edit(codigo, name);

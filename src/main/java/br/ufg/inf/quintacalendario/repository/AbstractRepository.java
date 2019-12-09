@@ -50,8 +50,7 @@ public abstract class AbstractRepository<T> implements IRepository<T> {
 
     @Override
     public List<T> select(String jpql) {
-        List<T> list = session.createQuery(jpql, modelClass).getResultList();
-        return list;
+        return session.createQuery(jpql, modelClass).getResultList();
     }
 
     public List<T> select(String jpql, Map<String, Object> parametersQuery) {
@@ -61,9 +60,7 @@ public abstract class AbstractRepository<T> implements IRepository<T> {
             query.setParameter(parameter.getKey(), parameter.getValue());
         }
 
-        List<T> list = query.getResultList();
-
-        return list;
+        return query.getResultList();
     }
 
     @Override

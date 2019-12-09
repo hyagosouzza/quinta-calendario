@@ -13,6 +13,7 @@ import java.util.List;
 
 public class EventScreenConsole extends AbstractHeaderView implements HomeView {
 
+    private static final String INVALID_CODE_MESSAGE = "Codigo invalido";
     private ConsoleWrapper consoleWrapper;
     private EventController eventController;
 
@@ -26,7 +27,7 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
     public void displayOptions() {
         displayHeader();
         displayInitialOption();
-        Integer opcao = getConsoleWrapper().askForInteger(displayInitialOption().toString());
+        Integer opcao = getConsoleWrapper().askForInteger(displayInitialOption());
         redirect(opcao);
     }
 
@@ -150,7 +151,7 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
             result = (regionais.stream().anyMatch(x -> x.getId() == codigo));
 
             if (!result) {
-                System.out.println("Codigo invalido");
+                System.out.println(INVALID_CODE_MESSAGE);
             } else {
                 codigoRegional = codigo;
             }
@@ -173,7 +174,7 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
             result = (institutes.stream().anyMatch(x -> x.getId() == codigo));
 
             if (!result) {
-                System.out.println("Codigo invalido");
+                System.out.println(INVALID_CODE_MESSAGE);
             } else {
                 codigoInstituto = codigo;
             }
@@ -196,7 +197,7 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
             result = (categories.stream().anyMatch(x -> x.getId() == codigo));
 
             if (!result) {
-                System.out.println("Codigo invalido");
+                System.out.println(INVALID_CODE_MESSAGE);
             } else {
                 codigoCategoria = codigo;
             }
