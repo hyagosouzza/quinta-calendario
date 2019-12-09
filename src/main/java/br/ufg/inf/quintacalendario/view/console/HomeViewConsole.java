@@ -19,8 +19,10 @@ public class HomeViewConsole extends AbstractHeaderView implements HomeView {
 
     @Override
     public void displayOptions() {
-    	int opcao = new ConsoleWrapper().askForInteger(displayOption());
-    	new HomePageController().redirectScreenBy(opcao);
+        try (ConsoleWrapper consoleWrapper = new ConsoleWrapper()) {
+            int option = consoleWrapper.askForInteger(displayOption());
+            new HomePageController().redirectScreenBy(option);
+        }
     }
 
     @Override
