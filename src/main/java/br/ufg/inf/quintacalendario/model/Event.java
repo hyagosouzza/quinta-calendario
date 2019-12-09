@@ -11,19 +11,25 @@ public class Event {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Date dataInicial;
-    private Date dataFinal;
-    private String descricao;
-    private String titulo;
+    private Date initialDate;
+    private Date finalDate;
+    private String description;
+    private String title;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category")
     private Category category;
 
+    /**
+     * Foreign Key Attribute for Regional Table
+     */
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "regional_event", joinColumns = {@JoinColumn(name = "event")}, inverseJoinColumns = {@JoinColumn(name = "regional")})
-    private List<Regional> regionais;
+    private List<Regional> regionals;
 
+    /**
+     * Foreign Key Attribute for Institute Table
+     */
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "institute_event", joinColumns = {@JoinColumn(name = "event")}, inverseJoinColumns = {@JoinColumn(name = "institute")})
     private List<Institute> institutes;
@@ -36,36 +42,36 @@ public class Event {
         this.id = id;
     }
 
-    public Date getDataInicial() {
-        return dataInicial;
+    public Date getInitialDate() {
+        return initialDate;
     }
 
-    public void setInitialDate(Date dataInicial) {
-        this.dataInicial = dataInicial;
+    public void setInitialDate(Date initialDate) {
+        this.initialDate = initialDate;
     }
 
-    public Date getDataFinal() {
-        return dataFinal;
+    public Date getFinalDate() {
+        return finalDate;
     }
 
-    public void setFinalDate(Date dataFinal) {
-        this.dataFinal = dataFinal;
+    public void setFinalDate(Date finalDate) {
+        this.finalDate = finalDate;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescription(String descricao) {
-        this.descricao = descricao;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitle(String titulo) {
-        this.titulo = titulo;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Category getCategory() {
@@ -76,12 +82,12 @@ public class Event {
         this.category = category;
     }
 
-    public List<Regional> getRegionais() {
-        return regionais;
+    public List<Regional> getRegionals() {
+        return regionals;
     }
 
-    public void setRegionais(List<Regional> regionais) {
-        this.regionais = regionais;
+    public void setRegionals(List<Regional> regionals) {
+        this.regionals = regionals;
     }
 
     public List<Institute> getInstitutes() {

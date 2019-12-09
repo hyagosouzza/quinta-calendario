@@ -67,7 +67,7 @@ public class InstituteServiceTest {
         institute.setName("Institute under test");
 
         //run
-        instituteServiceUnderTest.edit(1, "New name");
+        instituteServiceUnderTest.editName(1, "New name");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -84,7 +84,7 @@ public class InstituteServiceTest {
     public void testRemove() {
         //setup
         generateRandomInstitute();
-        List<Institute> institutes = instituteServiceUnderTest.listRecords();
+        List<Institute> institutes = instituteServiceUnderTest.getRecords();
         long id = institutes.get(0).getId();
 
         //run
@@ -102,7 +102,7 @@ public class InstituteServiceTest {
 
     @Test
     public void testListByDescriptionReturnsEmptyList() {
-        List<Institute> institutes = instituteServiceUnderTest.listRecordsByDescription("409");
+        List<Institute> institutes = instituteServiceUnderTest.getRecordsByDescription("409");
 
         assertEquals(Collections.emptyList(), institutes);
     }
@@ -115,9 +115,9 @@ public class InstituteServiceTest {
 
     private void limparObjetoEvento() {
         EventService eventService = new EventService(sessionFactory);
-        List<Event> events = eventService.listRecords();
+        List<Event> events = eventService.getRecords();
 
-        events.forEach(eventService::clearObject);
+        events.forEach(eventService::clearAttributes);
     }
 
 

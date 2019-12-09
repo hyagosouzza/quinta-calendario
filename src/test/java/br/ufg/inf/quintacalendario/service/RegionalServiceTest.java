@@ -58,7 +58,7 @@ public class RegionalServiceTest {
         regional.setName("Regional under test");
 
         //run
-        regionalServiceUnderTest.edit(1, "New name");
+        regionalServiceUnderTest.editDescription(1, "New name");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -80,7 +80,7 @@ public class RegionalServiceTest {
 
     @Test
     public void testListByDescriptionReturnsEmptyList() {
-        List<Regional> regionals = regionalServiceUnderTest.listRecordsByDescription("409");
+        List<Regional> regionals = regionalServiceUnderTest.getRecordsByDescription("409");
 
         assertEquals(Collections.emptyList(), regionals);
     }

@@ -54,7 +54,7 @@ public class RegionalController extends AbstractController {
      */
     public List<Regional> listRecords() {
         RegionalService regionalService = new RegionalService(getAbstractSessionFactory());
-        return regionalService.listRecords();
+        return regionalService.getRecords();
     }
 
     /**
@@ -65,7 +65,7 @@ public class RegionalController extends AbstractController {
      */
     public List<Regional> listRecordsByDescription(String description) {
         RegionalService regionalService = new RegionalService(getAbstractSessionFactory());
-        return regionalService.listRecordsByDescription(description);
+        return regionalService.getRecordsByDescription(description);
     }
 
     /**
@@ -88,7 +88,7 @@ public class RegionalController extends AbstractController {
      */
     public void edit(Integer id, String name) {
         RegionalService regionalService = new RegionalService(getAbstractSessionFactory());
-        regionalService.edit(id, name);
+        regionalService.editDescription(id, name);
     }
 
     /**

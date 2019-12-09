@@ -39,7 +39,7 @@ public class RegionalService {
 
             validateRegional(regional);
 
-            new RegionalRepository(session).salvar(regional);
+            new RegionalRepository(session).save(regional);
             transaction.commit();
 
             return true;
@@ -57,15 +57,15 @@ public class RegionalService {
      * @param id id of the regional to be edited
      * @param description new regional's description
      */
-    public void edit(long id, String description) {
+    public void editDescription(long id, String description) {
         Session session = sessionFactory.openSession();
         RegionalRepository regionalRepository = new RegionalRepository(session);
-        Regional regional = regionalRepository.listarPorId(id);
+        Regional regional = regionalRepository.getById(id);
 
         Transaction transaction = session.beginTransaction();
 
         regional.setName(description);
-        regionalRepository.atualizar(regional);
+        regionalRepository.update(regional);
 
         transaction.commit();
         session.close();
@@ -77,11 +77,11 @@ public class RegionalService {
      * @throws IllegalArgumentException Validation unsuccessful
      */
     private void validateRegional(Regional regional) {
-        if (regional.getNome().trim().isEmpty()) {
+        if (regional.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("O nome da regional nao pode ser vazio");
         }
 
-        if ((regional.getNome().trim().length()) < MIN_LENGTH) {
+        if ((regional.getName().trim().length()) < MIN_LENGTH) {
             throw new IllegalArgumentException("O node da regional deve ter no minimo 4 caracteres");
         }
     }
@@ -90,9 +90,9 @@ public class RegionalService {
      * List all regionals
      * @return a list of regionals
      */
-    public List<Regional> listRecords() {
+    public List<Regional> getRecords() {
         Session session = sessionFactory.openSession();
-        return new RegionalRepository(session).listar();
+        return new RegionalRepository(session).get();
     }
 
     /**
@@ -100,9 +100,9 @@ public class RegionalService {
      * @param description description to be searched by
      * @return a list of regionals
      */
-    public List<Regional> listRecordsByDescription(String description) {
+    public List<Regional> getRecordsByDescription(String description) {
         Session session = sessionFactory.openSession();
-        return new RegionalRepository(session).listarPorDescricao(description);
+        return new RegionalRepository(session).getByDecription(description);
     }
 
     /**
@@ -112,7 +112,7 @@ public class RegionalService {
      */
     public Regional getById(long id) {
         Session session = sessionFactory.openSession();
-        return new RegionalRepository(session).listarPorId(id);
+        return new RegionalRepository(session).getById(id);
     }
 
     /**
@@ -121,7 +121,7 @@ public class RegionalService {
     public void truncateTable() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        new RegionalRepository(session).limparTabela();
+        new RegionalRepository(session).dropTable();
         transaction.commit();
         session.close();
     }

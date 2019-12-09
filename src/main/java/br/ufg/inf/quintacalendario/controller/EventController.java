@@ -80,7 +80,7 @@ public class EventController extends AbstractController {
 			List<Regional> regionals = new ArrayList<>();
 			regionals.add(new RegionalService(getAbstractSessionFactory()).getById(regionalId));
 
-			event.setRegionais(regionals);
+			event.setRegionals(regionals);
 
 			EventService eventService = new EventService(getAbstractSessionFactory());
 			eventService.save(event);
@@ -127,7 +127,7 @@ public class EventController extends AbstractController {
 	 */
 	public List<Event> listRecords() {
 		EventService eventService = new EventService(getAbstractSessionFactory());
-		return eventService.listRecords();
+		return eventService.getRecords();
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class EventController extends AbstractController {
 	 */
 	public List<Event> listRecordsByDescription(String description) {
 		EventService eventService = new EventService(getAbstractSessionFactory());
-		return eventService.listRecordsByDescription(description);
+		return eventService.getRecordsByDescription(description);
 	}
 
 	/**
@@ -163,7 +163,7 @@ public class EventController extends AbstractController {
      */
 	public List<Event> listByPeriod(String initialDate, String finalDate) {
 		EventService eventService = new EventService(getAbstractSessionFactory());
-		return eventService.listByPeriod(from(initialDate), from(finalDate));
+		return eventService.getByPeriod(from(initialDate), from(finalDate));
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class EventController extends AbstractController {
 	 */
 	public List<Regional> listRegionals() {
 		RegionalService regionalService = new RegionalService(getAbstractSessionFactory());
-		return regionalService.listRecords();
+		return regionalService.getRecords();
 	}
 
 	/**
@@ -183,7 +183,7 @@ public class EventController extends AbstractController {
 	 */
 	public List<Institute> listInstitutes() {
 		InstituteService instituteService = new InstituteService(getAbstractSessionFactory());
-		return instituteService.listRecords();
+		return instituteService.getRecords();
 	}
 
 	/**
@@ -193,7 +193,7 @@ public class EventController extends AbstractController {
 	 */
 	public List<Category> listCategories() {
 		CategoryService categoryService = new CategoryService(getAbstractSessionFactory());
-		return categoryService.listRecords();
+		return categoryService.getRecords();
 	}
 
 	/**

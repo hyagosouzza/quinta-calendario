@@ -68,7 +68,7 @@ public class CategoryServiceTest {
         category.setName("Category under test");
 
         //run
-        categoryServiceUnderTest.edit(1, "New name");
+        categoryServiceUnderTest.editName(1, "New name");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -87,7 +87,7 @@ public class CategoryServiceTest {
     public void testRemove() {
         //setup
         generateRandomCategory();
-        List<Category> categories = categoryServiceUnderTest.listRecords();
+        List<Category> categories = categoryServiceUnderTest.getRecords();
         long id = categories.get(0).getId();
 
         //run
@@ -105,7 +105,7 @@ public class CategoryServiceTest {
 
     @Test
     public void testListByDescriptionReturnsEmptyList() {
-        List<Category> categories = categoryServiceUnderTest.listRecordsByDescription("409");
+        List<Category> categories = categoryServiceUnderTest.getRecordsByDescription("409");
 
         assertEquals(Collections.emptyList(), categories);
     }
@@ -118,8 +118,8 @@ public class CategoryServiceTest {
 
     private void limparObjetoEvento() {
         EventService eventService = new EventService(sessionFactory);
-        List<Event> events = eventService.listRecords();
+        List<Event> events = eventService.getRecords();
 
-        events.forEach(eventService::clearObject);
+        events.forEach(eventService::clearAttributes);
     }
 }

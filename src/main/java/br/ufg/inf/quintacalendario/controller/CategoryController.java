@@ -54,7 +54,7 @@ public class CategoryController extends AbstractController {
      */
     public List<Category> listRecords() {
         CategoryService service = new CategoryService(getAbstractSessionFactory());
-        return service.listRecords();
+        return service.getRecords();
     }
 
     /**
@@ -65,7 +65,7 @@ public class CategoryController extends AbstractController {
      */
     public List<Category> listRecordsByDescription(String description) {
         CategoryService categoryService = new CategoryService(getAbstractSessionFactory());
-        return categoryService.listRecordsByDescription(description);
+        return categoryService.getRecordsByDescription(description);
     }
 
     /**
@@ -88,7 +88,7 @@ public class CategoryController extends AbstractController {
      */
     public void edit(Integer id, String name) {
         CategoryService categoryService = new CategoryService(getAbstractSessionFactory());
-        categoryService.edit(id, name);
+        categoryService.editName(id, name);
     }
 
     /**

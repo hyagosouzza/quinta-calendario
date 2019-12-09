@@ -1,7 +1,7 @@
 package br.ufg.inf.quintacalendario.service;
 
 import br.ufg.inf.quintacalendario.model.Event;
-import br.ufg.inf.quintacalendario.repository.EventoRepository;
+import br.ufg.inf.quintacalendario.repository.EventRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -36,7 +36,7 @@ public class EventService {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            new EventoRepository(session).salvar(event);
+            new EventRepository(session).save(event);
             transaction.commit();
 
             return true;
@@ -56,8 +56,8 @@ public class EventService {
     public void edit(Event event) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        EventoRepository eventRepository = new EventoRepository(session);
-        eventRepository.atualizar(event);
+        EventRepository eventRepository = new EventRepository(session);
+        eventRepository.update(event);
         transaction.commit();
     }
 
@@ -65,9 +65,9 @@ public class EventService {
      * List all events
      * @return a list of events
      */
-    public List<Event> listRecords() {
+    public List<Event> getRecords() {
         Session session = sessionFactory.openSession();
-        return new EventoRepository(session).listar();
+        return new EventRepository(session).get();
     }
 
     /**
@@ -75,9 +75,9 @@ public class EventService {
      * @param description description to be searched by
      * @return a list of Events
      */
-    public List<Event> listRecordsByDescription(String description) {
+    public List<Event> getRecordsByDescription(String description) {
         Session session = sessionFactory.openSession();
-        return new EventoRepository(session).listarPorDescricao(description);
+        return new EventRepository(session).getByDecription(description);
     }
 
     /**
@@ -87,7 +87,7 @@ public class EventService {
      */
     public Event getById(long id) {
         Session session = sessionFactory.openSession();
-        return new EventoRepository(session).listarPorId(id);
+        return new EventRepository(session).getById(id);
     }
 
     /**
@@ -95,9 +95,9 @@ public class EventService {
      * @param categoryId id of the category to be searched by
      * @return a list of Events
      */
-    public List<Event> listByCategory(long categoryId) {
+    public List<Event> getByCategory(long categoryId) {
         Session session = sessionFactory.openSession();
-        return new EventoRepository(session).listarPorCategoria(categoryId);
+        return new EventRepository(session).getByCategory(categoryId);
     }
 
     /**
@@ -105,9 +105,9 @@ public class EventService {
      * @param instituteId id of the institute to be searched by
      * @return a list of Events
      */
-    public List<Event> listByInstitute(long instituteId) {
+    public List<Event> getByInstitute(long instituteId) {
         Session session = sessionFactory.openSession();
-        return new EventoRepository(session).listarPorInstituto(instituteId);
+        return new EventRepository(session).getByInstitute(instituteId);
     }
 
     /**
@@ -115,9 +115,9 @@ public class EventService {
      * @param regionalId id of the regional to be searched by
      * @return a list of Events
      */
-    public List<Event> listByRegional(long regionalId) {
+    public List<Event> getByRegional(long regionalId) {
         Session session = sessionFactory.openSession();
-        return new EventoRepository(session).listarPorRegional(regionalId);
+        return new EventRepository(session).listarPorRegional(regionalId);
     }
 
     /**
@@ -126,9 +126,9 @@ public class EventService {
      * @param endDate end date of the period
      * @return a list of Events
      */
-    public List<Event> listByPeriod(Date startDate, Date endDate) {
+    public List<Event> getByPeriod(Date startDate, Date endDate) {
         Session session = sessionFactory.openSession();
-        return new EventoRepository(session).listarPorPeriodo(startDate, endDate);
+        return new EventRepository(session).getByPeriod(startDate, endDate);
     }
 
     /**
@@ -136,9 +136,9 @@ public class EventService {
      * @param date date to be searched by
      * @return a list of Events
      */
-    public List<Event> listByDate(Date date) {
+    public List<Event> getByDate(Date date) {
         Session session = sessionFactory.openSession();
-        return new EventoRepository(session).listarPorData(date);
+        return new EventRepository(session).getByInitialDate(date);
 
     }
 
@@ -148,7 +148,7 @@ public class EventService {
     public void truncateTable() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        new EventoRepository(session).limparTabela();
+        new EventRepository(session).dropTable();
         transaction.commit();
         session.close();
     }
@@ -157,15 +157,15 @@ public class EventService {
      * Clears an event category
      * @param event event to be edited
      */
-    private void deleteCategory(Event event) {
+    private void clearCategory(Event event) {
         event.setCategory(null);
     }
 
     /**
-     * Clears an event institute
+     * Clears all the event's institutes
      * @param event event to be edited
      */
-    private void deleteInstitute(Event event) {
+    private void clearInstitutes(Event event) {
         event.getInstitutes().clear();
     }
 
@@ -173,23 +173,23 @@ public class EventService {
      * Clears all the event's regionals
      * @param event event to be edited
      */
-    private void deleteRegionals(Event event) {
-        event.getRegionais().clear();
+    private void clearRegionals(Event event) {
+        event.getRegionals().clear();
     }
 
     /**
      * Clears all attributes of an given event
      * @param event event to be cleared
      */
-    public void clearObject(Event event) {
+    public void clearAttributes(Event event) {
         try (Session session = getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
 
-            deleteCategory(event);
-            deleteInstitute(event);
-            deleteRegionals(event);
+            clearCategory(event);
+            clearInstitutes(event);
+            clearRegionals(event);
 
-            new EventoRepository(session).atualizar(event);
+            new EventRepository(session).update(event);
             transaction.commit();
         }
     }

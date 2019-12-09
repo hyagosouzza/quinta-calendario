@@ -1,7 +1,7 @@
 package br.ufg.inf.quintacalendario.service;
 
 import br.ufg.inf.quintacalendario.model.Category;
-import br.ufg.inf.quintacalendario.repository.CategoriaRepository;
+import br.ufg.inf.quintacalendario.repository.CategoryRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -38,7 +38,7 @@ public class CategoryService {
         try {
             validateCategory(category);
 
-            new CategoriaRepository(session).salvar(category);
+            new CategoryRepository(session).save(category);
             transaction.commit();
 
             return true;
@@ -69,9 +69,9 @@ public class CategoryService {
      * List all categories
      * @return a list of categories
      */
-    public List<Category> listRecords() {
+    public List<Category> getRecords() {
         Session session = sessionFactory.openSession();
-        return new CategoriaRepository(session).listar();
+        return new CategoryRepository(session).get();
     }
 
     /**
@@ -80,7 +80,7 @@ public class CategoryService {
     public void truncateTable() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        new CategoriaRepository(session).limparTabela();
+        new CategoryRepository(session).dropTable();
         transaction.commit();
         session.close();
     }
@@ -90,9 +90,9 @@ public class CategoryService {
      * @param description description to be searched by
      * @return a list of categories
      */
-    public List<Category> listRecordsByDescription(String description) {
+    public List<Category> getRecordsByDescription(String description) {
         Session session = sessionFactory.openSession();
-        return new CategoriaRepository(session).listarPorDescricao(description);
+        return new CategoryRepository(session).getByDecription(description);
     }
 
     /**
@@ -102,7 +102,7 @@ public class CategoryService {
      */
     public Category getById(Integer id) {
         Session session = sessionFactory.openSession();
-        return new CategoriaRepository(session).listarPorId(id);
+        return new CategoryRepository(session).getById(id);
     }
 
     /**
@@ -110,15 +110,15 @@ public class CategoryService {
      * @param id id of the category to be edited
      * @param name new category's name
      */
-    public void edit(Integer id, String name) {
+    public void editName(Integer id, String name) {
         Session session = sessionFactory.openSession();
-        CategoriaRepository repository = new CategoriaRepository(session);
-        Category category = repository.listarPorId(id);
+        CategoryRepository repository = new CategoryRepository(session);
+        Category category = repository.getById(id);
 
         Transaction transaction = session.beginTransaction();
 
         category.setName(name);
-        repository.atualizar(category);
+        repository.update(category);
 
         transaction.commit();
         session.close();
@@ -131,7 +131,7 @@ public class CategoryService {
     public void remove(Integer id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        new CategoriaRepository(session).remover(id);
+        new CategoryRepository(session).remover(id);
         transaction.commit();
         session.close();
     }

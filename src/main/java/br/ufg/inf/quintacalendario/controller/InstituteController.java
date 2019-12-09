@@ -54,7 +54,7 @@ public class InstituteController extends AbstractController {
      */
     public List<Institute> listRecords() {
         InstituteService instituteService = new InstituteService(getAbstractSessionFactory());
-        return instituteService.listRecords();
+        return instituteService.getRecords();
     }
 
     /**
@@ -65,7 +65,7 @@ public class InstituteController extends AbstractController {
      */
     public List<Institute> listRecordsByDescription(String description) {
         InstituteService instituteService = new InstituteService(getAbstractSessionFactory());
-        return instituteService.listRecordsByDescription(description);
+        return instituteService.getRecordsByDescription(description);
     }
 
     /**
@@ -88,7 +88,7 @@ public class InstituteController extends AbstractController {
      */
     public void edit(Integer id, String name) {
         InstituteService instituteService = new InstituteService(getAbstractSessionFactory());
-        instituteService.edit(id, name);
+        instituteService.editName(id, name);
     }
 
     /**

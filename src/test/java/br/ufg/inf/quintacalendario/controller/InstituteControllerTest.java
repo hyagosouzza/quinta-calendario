@@ -118,9 +118,9 @@ public class InstituteControllerTest {
 
 	public void limparObjetoEvento() {
 		EventService eventService = new EventService(sessionFactory);
-		List<Event> events = eventService.listRecords();
+		List<Event> events = eventService.getRecords();
 
-		events.stream().forEach(x -> eventService.clearObject(x));
+		events.stream().forEach(x -> eventService.clearAttributes(x));
 	}
 
 }

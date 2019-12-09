@@ -82,9 +82,9 @@ public class EventServiceTest {
     @Test
     public void testListRecords() {
         generateTwoRandomEvents();
-        List<Event> events = eventServiceUnderTest.listRecords();
+        List<Event> events = eventServiceUnderTest.getRecords();
 
-        List<Event> eventsByDescription = eventServiceUnderTest.listRecordsByDescription(description);
+        List<Event> eventsByDescription = eventServiceUnderTest.getRecordsByDescription(description);
 
         assertEquals(2, events.size());
         assertEquals(events.get(0).getId(), eventsByDescription.get(0).getId());
@@ -97,11 +97,11 @@ public class EventServiceTest {
         Date endDate = dateFormat.parse("30/04/2002");
 
         generateTwoRandomEvents();
-        List<Event> noOneEvents = eventServiceUnderTest.listByPeriod(startDate, endDate);
+        List<Event> noOneEvents = eventServiceUnderTest.getByPeriod(startDate, endDate);
 
         startDate = dateFormat.parse(initialDate);
         endDate = dateFormat.parse("30/04/2002");
-        List<Event> events = eventServiceUnderTest.listByPeriod(startDate, endDate);
+        List<Event> events = eventServiceUnderTest.getByPeriod(startDate, endDate);
 
         assertEquals(2, events.size());
         assertEquals(0, noOneEvents.size());
@@ -116,7 +116,7 @@ public class EventServiceTest {
 
     @Test
     public void testListByDescriptionReturnsEmptyList() {
-        List<Event> events = eventServiceUnderTest.listRecordsByDescription("409");
+        List<Event> events = eventServiceUnderTest.getRecordsByDescription("409");
 
         assertEquals(Collections.emptyList(), events);
     }
@@ -140,8 +140,8 @@ public class EventServiceTest {
 
     private void limparObjetoEvento() {
         EventService eventService = new EventService(sessionFactory);
-        List<Event> events = eventService.listRecords();
+        List<Event> events = eventService.getRecords();
 
-        events.forEach(eventService::clearObject);
+        events.forEach(eventService::clearAttributes);
     }
 }

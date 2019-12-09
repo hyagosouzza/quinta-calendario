@@ -118,9 +118,9 @@ public class CategoryControllerTest {
 
 	public void limparObjetoEvento() {
 		EventService eventService = new EventService(sessionFactory);
-		List<Event> events = eventService.listRecords();
+		List<Event> events = eventService.getRecords();
 
-		events.forEach(eventService::clearObject);
+		events.forEach(eventService::clearAttributes);
 	}
 
 }
