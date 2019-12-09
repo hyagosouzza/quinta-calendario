@@ -2,106 +2,105 @@ package br.ufg.inf.quintacalendario.view.console;
 
 import br.ufg.inf.quintacalendario.controller.InstituteController;
 import br.ufg.inf.quintacalendario.model.Institute;
-import br.ufg.inf.quintacalendario.view.TelaInicial;
-import br.ufg.inf.quintacalendario.view.console.util.EntradaConsole;
+import br.ufg.inf.quintacalendario.view.HomeView;
+import br.ufg.inf.quintacalendario.view.console.util.ConsoleInput;
 
 import java.io.PrintStream;
 import java.util.List;
 
-public class InstituteScreenConsole extends AbstractTelaCabecalho implements TelaInicial {
+public class InstituteScreenConsole extends AbstractHeaderView implements HomeView {
 
-    private EntradaConsole entradaConsole;
+    private ConsoleInput consoleInput;
 
     public InstituteScreenConsole(PrintStream output) {
         super(output);
-        setEntradaConsole(new EntradaConsole());
+        setConsoleInput(new ConsoleInput());
     }
 
     @Override
-    public void showOptions() {
-        exibaCabecalho();
-        desenharOpcoesInicial();
-        Integer opcao = getEntradaConsole().pergunteInteiro(desenharOpcoesInicial().toString());
-        redirect(opcao);
+    public void displayOptions() {
+        displayHeader();
+        displayInitialOptions();
+        Integer option = getConsoleInput().askForInteger(displayInitialOptions());
+        redirect(option);
     }
 
     private void redirect(Integer opcao) {
         switch (opcao) {
             case 1:
-                cadastrar();
-                showOptions();
+                createInstitute();
+                displayOptions();
                 break;
             case 2:
-                editar();
-                showOptions();
+                editInstitute();
+                displayOptions();
                 break;
             case 3:
                 remove();
-                showOptions();
+                displayOptions();
                 break;
             case 4:
-                List<Institute> institutes = pesquisar();
+                List<Institute> institutes = queryInstitutes();
                 if (institutes.isEmpty()) {
                     System.out.println("Não existem institutos cadastradas");
                 } else {
-                    printarinstitutos(institutes);
+                    displayInstitutes(institutes);
                 }
-                showOptions();
+                displayOptions();
                 break;
             case 5:
-                pesquisarPorDescricao();
-                showOptions();
+                queryByDescription();
+                displayOptions();
                 break;
             case 6:
-                new TelaInicialConsole(System.out).showOptions();
+                new HomeViewConsole(System.out).displayOptions();
                 break;
             case 7:
                 break;
             default:
                 System.out.println("Opção invalida");
-                showOptions();
+                displayOptions();
                 break;
         }
     }
 
     public void remove() {
-        List<Institute> institutes = pesquisar();
+        List<Institute> institutes = queryInstitutes();
         if (!institutes.isEmpty()) {
-            printarinstitutos(institutes);
-            Integer codigo = getEntradaConsole().pergunteInteiro("Digite o codigo da Instituto que deseja remover");
+            displayInstitutes(institutes);
+            Integer codigo = getConsoleInput().askForInteger("Digite o codigo da Instituto que deseja remover");
             new InstituteController().remove(codigo);
             System.out.println("Instituto removida com sucesso");
         }
     }
 
-    private void pesquisarPorDescricao() {
-        String descricao = getEntradaConsole().pergunteString("Digite a descrição desejada", true);
+    private void queryByDescription() {
+        String descricao = getConsoleInput().askForString("Digite a descrição desejada", true);
         List<Institute> institutes = new InstituteController().listRecordsByDescription(descricao);
-        printarinstitutos(institutes);
+        displayInstitutes(institutes);
     }
 
-    private List<Institute> pesquisar() {
-        List<Institute> institutes = new InstituteController().listRecords();
-        return institutes;
+    private List<Institute> queryInstitutes() {
+        return new InstituteController().listRecords();
     }
 
-    private void editar() {
-        List<Institute> institutes = pesquisar();
+    private void editInstitute() {
+        List<Institute> institutes = queryInstitutes();
         if (institutes.isEmpty()) {
             System.out.println("Não existem institutos cadastrados para se realizar a alteração.");
         } else {
-            printarinstitutos(institutes);
-            Integer codigo = getEntradaConsole().pergunteInteiro("Digite o codigo da Instituto que deseja editar");
+            displayInstitutes(institutes);
+            Integer codigo = getConsoleInput().askForInteger("Digite o codigo da Instituto que deseja editar");
 
             Institute institute = new InstituteController().getById(codigo);
 
             if (institute == null) {
                 System.out.println("Instituto não encontrado");
-                editar();
+                editInstitute();
             } else {
                 System.out.println(institute.getId() + " - " + institute.getName());
 
-                String nome = getEntradaConsole().pergunteString("Digite o novo nome do Instituto", true);
+                String nome = getConsoleInput().askForString("Digite o novo nome do Instituto", true);
                 new InstituteController().edit(codigo, nome);
 
                 System.out.println("Instituto Alterado Com Sucesso");
@@ -109,43 +108,41 @@ public class InstituteScreenConsole extends AbstractTelaCabecalho implements Tel
         }
     }
 
-    private void cadastrar() {
+    private void createInstitute() {
         boolean result = false;
         while (!result) {
-            String nome = getEntradaConsole().pergunteString("Digite o nome do Instituto");
+            String nome = getConsoleInput().askForString("Digite o nome do Instituto");
             result = new InstituteController().register(nome);
         }
 
         System.out.println("Instituto Cadastrado Com Sucesso");
     }
 
-    private void printarinstitutos(List<Institute> institutes) {
-        institutes.stream().forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
+    private void displayInstitutes(List<Institute> institutes) {
+        institutes.forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
     }
 
     @Override
-    public int pergunteOpcao() {
+    public int askQuestion() {
         return 0;
     }
 
-    public String desenharOpcoesInicial() {
-        StringBuilder tela = new StringBuilder();
-        tela.append("1 - Cadastrar				  \n")
-                .append("2 - Editar					  \n")
-                .append("3 - Remover				  \n")
-                .append("4 - Pesquisar todos		  \n")
-                .append("5 - Pesquisar por descrição  \n")
-                .append("6 - Voltar ao menu principal \n")
-                .append("7 - Sair 					  \n");
-        return tela.toString();
+    public String displayInitialOptions() {
+        return "1 - Cadastrar				  \n" +
+                "2 - Editar					  \n" +
+                "3 - Remover				  \n" +
+                "4 - Pesquisar todos		  \n" +
+                "5 - Pesquisar por descrição  \n" +
+                "6 - Voltar ao menu principal \n" +
+                "7 - Sair 					  \n";
     }
 
-    public EntradaConsole getEntradaConsole() {
-        return entradaConsole;
+    public ConsoleInput getConsoleInput() {
+        return consoleInput;
     }
 
-    public void setEntradaConsole(EntradaConsole entradaConsole) {
-        this.entradaConsole = entradaConsole;
+    public void setConsoleInput(ConsoleInput consoleInput) {
+        this.consoleInput = consoleInput;
     }
 
 }

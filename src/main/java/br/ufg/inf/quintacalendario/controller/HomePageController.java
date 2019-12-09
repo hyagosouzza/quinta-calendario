@@ -1,6 +1,6 @@
 package br.ufg.inf.quintacalendario.controller;
 
-import br.ufg.inf.quintacalendario.view.console.TelaInicialConsole;
+import br.ufg.inf.quintacalendario.view.console.HomeViewConsole;
 
 /**
  * Controller responsible for intercepting home page entity operations
@@ -32,7 +32,7 @@ public class HomePageController {
                 new UserController().showHisOptions();
                 break;
             case 6:
-                TelaInicialConsole.finishProgramExecution();
+                HomeViewConsole.finishProgramExecution();
                 break;
             default:
                 break;

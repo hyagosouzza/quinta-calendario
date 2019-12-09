@@ -3,8 +3,8 @@ package br.ufg.inf.quintacalendario.main;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import br.ufg.inf.quintacalendario.view.TelaInicial;
-import br.ufg.inf.quintacalendario.view.console.TelaInicialConsole;
+import br.ufg.inf.quintacalendario.view.HomeView;
+import br.ufg.inf.quintacalendario.view.console.HomeViewConsole;
 
 import java.util.Objects;
 
@@ -48,9 +48,9 @@ public class Application {
      * Start the application's logic.
      */
     private void run() {
-        TelaInicial startScreen = new TelaInicialConsole(System.out);
-        startScreen.exibaCabecalho();
-        startScreen.showOptions();
+        HomeView startScreen = new HomeViewConsole(System.out);
+        startScreen.displayHeader();
+        startScreen.displayOptions();
     }
 
     /**

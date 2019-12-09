@@ -2,106 +2,105 @@ package br.ufg.inf.quintacalendario.view.console;
 
 import br.ufg.inf.quintacalendario.controller.RegionalController;
 import br.ufg.inf.quintacalendario.model.Regional;
-import br.ufg.inf.quintacalendario.view.TelaInicial;
-import br.ufg.inf.quintacalendario.view.console.util.EntradaConsole;
+import br.ufg.inf.quintacalendario.view.HomeView;
+import br.ufg.inf.quintacalendario.view.console.util.ConsoleInput;
 
 import java.io.PrintStream;
 import java.util.List;
 
-public class RegionalScreenConsole extends AbstractTelaCabecalho implements TelaInicial {
+public class RegionalScreenConsole extends AbstractHeaderView implements HomeView {
 
-    private EntradaConsole entradaConsole;
+    private ConsoleInput consoleInput;
 
     public RegionalScreenConsole(PrintStream output) {
         super(output);
-        setEntradaConsole(new EntradaConsole());
+        setConsoleInput(new ConsoleInput());
     }
 
     @Override
-    public void showOptions() {
-        exibaCabecalho();
-        desenharOpcoesInicial();
-        Integer opcao = getEntradaConsole().pergunteInteiro(desenharOpcoesInicial().toString());
+    public void displayOptions() {
+        displayHeader();
+        displayInitialOptions();
+        Integer opcao = getConsoleInput().askForInteger(displayInitialOptions());
         redirect(opcao);
     }
 
     private void redirect(Integer opcao) {
         switch (opcao) {
             case 1:
-                cadastrar();
-                showOptions();
+                createRegional();
+                displayOptions();
                 break;
             case 2:
-                editar();
-                showOptions();
+                editRegional();
+                displayOptions();
                 break;
             case 3:
                 remove();
-                showOptions();
+                displayOptions();
                 break;
             case 4:
-                List<Regional> regionais = pesquisar();
+                List<Regional> regionais = queryRegionals();
                 if (regionais.isEmpty()) {
                     System.out.println("Não existem regionais cadastradas");
                 } else {
-                    printarRegionais(regionais);
+                    displayRegionals(regionais);
                 }
-                showOptions();
+                displayOptions();
                 break;
             case 5:
-                pesquisarPorDescricao();
-                showOptions();
+                queryByDescription();
+                displayOptions();
                 break;
             case 6:
-                new TelaInicialConsole(System.out).showOptions();
+                new HomeViewConsole(System.out).displayOptions();
                 break;
             case 7:
                 break;
             default:
                 System.out.println("Opção invalida");
-                showOptions();
+                displayOptions();
                 break;
         }
     }
 
     public void remove() {
-        List<Regional> regionais = pesquisar();
-        if (!regionais.isEmpty()) {
-            printarRegionais(regionais);
-            Integer codigo = getEntradaConsole().pergunteInteiro("Digite o codigo da regional que deseja remover");
+        List<Regional> regionals = queryRegionals();
+        if (!regionals.isEmpty()) {
+            displayRegionals(regionals);
+            Integer codigo = getConsoleInput().askForInteger("Digite o codigo da regional que deseja remover");
             new RegionalController().remove(codigo);
             System.out.println("Regional removida com sucesso");
         }
     }
 
-    private void pesquisarPorDescricao() {
-        String descricao = getEntradaConsole().pergunteString("Digite a descrição desejada", true);
+    private void queryByDescription() {
+        String descricao = getConsoleInput().askForString("Digite a descrição desejada", true);
         List<Regional> regionais = new RegionalController().listRecordsByDescription(descricao);
-        printarRegionais(regionais);
+        displayRegionals(regionais);
     }
 
-    private List<Regional> pesquisar() {
-        List<Regional> regionais = new RegionalController().listRecords();
-        return regionais;
+    private List<Regional> queryRegionals() {
+        return new RegionalController().listRecords();
     }
 
-    private void editar() {
-        List<Regional> regionais = pesquisar();
+    private void editRegional() {
+        List<Regional> regionais = queryRegionals();
         if (regionais.isEmpty()) {
             System.out.println("Não existem regionais cadastradas para se realizar a alteração.");
         } else {
-            printarRegionais(regionais);
-            Integer codigo = getEntradaConsole().pergunteInteiro("Digite o codigo da regional que deseja editar");
+            displayRegionals(regionais);
+            Integer codigo = getConsoleInput().askForInteger("Digite o codigo da regional que deseja editar");
 
             Regional regional = new RegionalController().getById(codigo);
 
             if (regional.getName().isEmpty()) {
                 System.out.println("Regional não encontrada");
-                editar();
+                editRegional();
             } else {
                 System.out.println(regional.getId() + " - " + regional.getName());
 
-                String nome = getEntradaConsole().pergunteString("Digite o novo nome da Regional", true);
+                String nome = getConsoleInput().askForString("Digite o novo nome da Regional", true);
                 new RegionalController().edit(codigo, nome);
 
                 System.out.println("Regional Alterada Com Sucesso");
@@ -109,42 +108,40 @@ public class RegionalScreenConsole extends AbstractTelaCabecalho implements Tela
         }
     }
 
-    private void cadastrar() {
+    private void createRegional() {
         boolean result = false;
         while (!result) {
-            String nome = getEntradaConsole().pergunteString("Digite o nome da regional");
+            String nome = getConsoleInput().askForString("Digite o nome da regional");
             result = new RegionalController().register(nome);
         }
 
         System.out.println("Regional Cadastrada Com Sucesso");
     }
 
-    private void printarRegionais(List<Regional> regionais) {
-        regionais.stream().forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
+    private void displayRegionals(List<Regional> regionais) {
+        regionais.forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
     }
 
     @Override
-    public int pergunteOpcao() {
+    public int askQuestion() {
         return 0;
     }
 
-    public String desenharOpcoesInicial() {
-        StringBuilder tela = new StringBuilder();
-        tela.append("1 - Cadastrar				  \n")
-                .append("2 - Editar					  \n")
-                .append("3 - Remover				  \n")
-                .append("4 - Pesquisar todos		  \n")
-                .append("5 - Pesquisar por descrição  \n")
-                .append("6 - Voltar ao menu principal \n")
-                .append("7 - Sair 					  \n");
-        return tela.toString();
+    public String displayInitialOptions() {
+        return "1 - Cadastrar				  \n" +
+                "2 - Editar					  \n" +
+                "3 - Remover				  \n" +
+                "4 - Pesquisar todos		  \n" +
+                "5 - Pesquisar por descrição  \n" +
+                "6 - Voltar ao menu principal \n" +
+                "7 - Sair 					  \n";
     }
 
-    public EntradaConsole getEntradaConsole() {
-        return entradaConsole;
+    public ConsoleInput getConsoleInput() {
+        return consoleInput;
     }
 
-    public void setEntradaConsole(EntradaConsole entradaConsole) {
-        this.entradaConsole = entradaConsole;
+    public void setConsoleInput(ConsoleInput consoleInput) {
+        this.consoleInput = consoleInput;
     }
 }

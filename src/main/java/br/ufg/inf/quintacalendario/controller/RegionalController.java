@@ -30,7 +30,7 @@ public class RegionalController extends AbstractController {
      * Show category options on screen
      */
     void showHisOptions() {
-        getRegionalScreen().showOptions();
+        getRegionalScreen().displayOptions();
     }
 
     /**

@@ -5,100 +5,92 @@ import br.ufg.inf.quintacalendario.model.Category;
 import br.ufg.inf.quintacalendario.model.Event;
 import br.ufg.inf.quintacalendario.model.Institute;
 import br.ufg.inf.quintacalendario.model.Regional;
-import br.ufg.inf.quintacalendario.view.TelaInicial;
-import br.ufg.inf.quintacalendario.view.console.util.EntradaConsole;
+import br.ufg.inf.quintacalendario.view.HomeView;
+import br.ufg.inf.quintacalendario.view.console.util.ConsoleInput;
 
 import java.io.PrintStream;
 import java.util.List;
 
-public class EventScreenConsole extends AbstractTelaCabecalho implements TelaInicial {
+public class EventScreenConsole extends AbstractHeaderView implements HomeView {
 
-    private EntradaConsole entradaConsole;
+    private ConsoleInput consoleInput;
 
     public EventScreenConsole(PrintStream out) {
         super(out);
-        setEntradaConsole(new EntradaConsole());
+        setConsoleInput(new ConsoleInput());
     }
 
     @Override
-    public void showOptions() {
-        exibaCabecalho();
-        desenharOpcoesInicial();
-        Integer opcao = getEntradaConsole().pergunteInteiro(desenharOpcoesInicial().toString());
+    public void displayOptions() {
+        displayHeader();
+        displayInitialOption();
+        Integer opcao = getConsoleInput().askForInteger(displayInitialOption().toString());
         redirect(opcao);
     }
 
     @Override
-    public int pergunteOpcao() {
+    public int askQuestion() {
         return 0;
     }
 
     private void redirect(Integer opcao) {
         switch (opcao) {
             case 1:
-                cadastrar();
-                showOptions();
+                createEvent();
+                displayOptions();
                 break;
             case 2:
-                showOptions();
+                displayOptions();
                 break;
             case 3:
-                showOptions();
+                displayOptions();
                 break;
             case 4:
-                listar();
-                showOptions();
+                queryEvents();
+                displayOptions();
                 break;
             case 5:
                 listarPorDescricao();
-                showOptions();
+                displayOptions();
                 break;
             case 6:
-                listarPorPeriodo();
-                showOptions();
+                queryByDateRange();
+                displayOptions();
                 break;
             case 7:
-                System.out.println("Opção em desenvolvimento");
-                showOptions();
-                break;
             case 8:
-                System.out.println("Opção em desenvolvimento");
-                showOptions();
-                break;
             case 9:
                 System.out.println("Opção em desenvolvimento");
-                showOptions();
+                displayOptions();
                 break;
             case 10:
-                new TelaInicialConsole(System.out).showOptions();
+                new HomeViewConsole(System.out).displayOptions();
                 break;
             case 11:
                 break;
             default:
                 System.out.println("Opção invalida");
-                showOptions();
+                displayOptions();
                 break;
         }
     }
 
-    public String desenharOpcoesInicial() {
-        StringBuilder tela = new StringBuilder();
-        tela.append("1 - Cadastrar				  \n")
-                .append("2 - Editar					  \n")
-                .append("3 - Remover				  \n")
-                .append("4 - Pesquisar todos		  \n")
-                .append("5 - Pesquisar por descrição  \n")
-                .append("6 - Pesquisar por periodo    \n")
-                .append("7 - Pesquisar por instituto - ** Em desenvolvimento ** \n")
-                .append("8 - Pesquisar por regional  - ** Em desenvolvimento ** \n")
-                .append("9 - Pesquisar por categoria - ** Em desenvolvimento ** \n")
-                .append("10 - Voltar ao menu principal \n")
-                .append("11 - Sair 					  \n");
-        return tela.toString();
+    public String displayInitialOption() {
+        return "1 - Cadastrar				  \n" +
+                "2 - Editar					  \n" +
+                "3 - Remover				  \n" +
+                "4 - Pesquisar todos		  \n" +
+                "5 - Pesquisar por descrição  \n" +
+                "6 - Pesquisar por periodo    \n" +
+                "7 - Pesquisar por instituto - ** Em desenvolvimento ** \n" +
+                "8 - Pesquisar por regional  - ** Em desenvolvimento ** \n" +
+                "9 - Pesquisar por categoria - ** Em desenvolvimento ** \n" +
+                "10 - Voltar ao menu principal \n" +
+                "11 - Sair 					  \n";
     }
 
     private void listarPorDescricao() {
-        String descricaoEvento = getEntradaConsole().pergunteString("Digite a descricão do evento", true);
+        String descricaoEvento = getConsoleInput().askForString("Digite a descricão do evento", true);
         EventController eventController = new EventController();
         List<Event> events = eventController.listRecordsByDescription(descricaoEvento);
         if (events.isEmpty()) {
@@ -108,9 +100,9 @@ public class EventScreenConsole extends AbstractTelaCabecalho implements TelaIni
         }
     }
 
-    public void listarPorPeriodo() {
-        String dataInicial = getEntradaConsole().pergunteString("Digite a data inicial, no formato dd/MM/YYYY", true);
-        String dataFinal = getEntradaConsole().pergunteString("Digite a data final, no formato dd/MM/YYYY", true);
+    public void queryByDateRange() {
+        String dataInicial = getConsoleInput().askForString("Digite a data inicial, no formato dd/MM/YYYY", true);
+        String dataFinal = getConsoleInput().askForString("Digite a data final, no formato dd/MM/YYYY", true);
 
         EventController eventoController = new EventController();
         List<Event> events = eventoController.listByPeriod(dataInicial, dataFinal);
@@ -121,42 +113,42 @@ public class EventScreenConsole extends AbstractTelaCabecalho implements TelaIni
         }
     }
 
-    private void listar() {
+    private void queryEvents() {
         EventController controller = new EventController();
         List<Event> events = controller.listRecords();
         events.forEach(x -> System.out.println(x.getId() + " - " + x.getTitle()));
     }
 
-    private void cadastrar() {
+    private void createEvent() {
         EventController eventController = new EventController();
 
-        if (dadosCadastroSaoValidos()) {
+        if (validadeEventData()) {
 
-            String titulo = getEntradaConsole().pergunteString("Digite o titulo do evento", true);
-            String descricao = getEntradaConsole().pergunteString("Digite a descricão do evento", true);
-            String dataInicial = getEntradaConsole().pergunteString("Digite a data inicial do evento, no formato dd/MM/YYYY", true);
-            String dataFinal = getEntradaConsole().pergunteString("Digite a data final do evento, no formato dd/MM/YYYY", true);
+            String title = getConsoleInput().askForString("Digite o titulo do evento", true);
+            String description = getConsoleInput().askForString("Digite a descricão do evento", true);
+            String initialDate = getConsoleInput().askForString("Digite a data inicial do evento, no formato dd/MM/YYYY", true);
+            String finalDate = getConsoleInput().askForString("Digite a data final do evento, no formato dd/MM/YYYY", true);
 
-            int codigoCategoria = selecionarCodigoCategoria();
-            int codigoRegional = selecionarCodigoRegional();
-            int codigoInstituto = selecionarCodigoInstituto();
+            int categoryCode = selectCategoryCode();
+            int regionalCode = selectRegionalCode();
+            int instituteCode = displayInstituteCode();
 
-            boolean result = eventController.register(descricao, titulo, dataInicial, dataFinal, codigoCategoria, codigoRegional, codigoInstituto);
+            boolean result = eventController.register(description, title, initialDate, finalDate, categoryCode, regionalCode, instituteCode);
             if (result) {
                 System.out.println("Evento cadastrado com sucesso");
             }
         }
     }
 
-    private int selecionarCodigoRegional() {
+    private int selectRegionalCode() {
         EventController controller = new EventController();
         List<Regional> regionais = controller.listRegionals();
-        boolean result = false;
-        Integer codigoRegional = 0;
+        boolean result;
+        int codigoRegional = 0;
         do {
             Integer codigo;
-            regionais.stream().forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
-            codigo = getEntradaConsole().pergunteInteiro("Digite o codigo da regional do evento");
+            regionais.forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
+            codigo = getConsoleInput().askForInteger("Digite o codigo da regional do evento");
 
             result = (regionais.stream().anyMatch(x -> x.getId() == codigo));
 
@@ -171,16 +163,16 @@ public class EventScreenConsole extends AbstractTelaCabecalho implements TelaIni
         return codigoRegional;
     }
 
-    private int selecionarCodigoInstituto() {
+    private int displayInstituteCode() {
         EventController controller = new EventController();
         List<Institute> institutes = controller.listInstitutes();
         boolean result;
-        Integer codigoInstituto = 0;
+        int codigoInstituto = 0;
 
         do {
             Integer codigo;
-            institutes.stream().forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
-            codigo = getEntradaConsole().pergunteInteiro("Digite o codigo do instituto do evento");
+            institutes.forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
+            codigo = getConsoleInput().askForInteger("Digite o codigo do instituto do evento");
 
             result = (institutes.stream().anyMatch(x -> x.getId() == codigo));
 
@@ -195,16 +187,16 @@ public class EventScreenConsole extends AbstractTelaCabecalho implements TelaIni
         return codigoInstituto;
     }
 
-    private int selecionarCodigoCategoria() {
+    private int selectCategoryCode() {
         EventController controller = new EventController();
         List<Category> categories = controller.listCategories();
         boolean result;
-        Integer codigoCategoria = 0;
+        int codigoCategoria = 0;
 
         do {
             Integer codigo;
-            categories.stream().forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
-            codigo = getEntradaConsole().pergunteInteiro("Digite o codigo da categoria do evento");
+            categories.forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
+            codigo = getConsoleInput().askForInteger("Digite o codigo da categoria do evento");
 
             result = (categories.stream().anyMatch(x -> x.getId() == codigo));
 
@@ -219,15 +211,15 @@ public class EventScreenConsole extends AbstractTelaCabecalho implements TelaIni
         return codigoCategoria;
     }
 
-    private boolean dadosCadastroSaoValidos() {
+    private boolean validadeEventData() {
         EventController controller = new EventController();
         boolean result = true;
 
-        List<Regional> regionais = controller.listRegionals();
+        List<Regional> regionals = controller.listRegionals();
         List<Institute> institutes = controller.listInstitutes();
         List<Category> categories = controller.listCategories();
 
-        if (regionais == null || regionais.isEmpty()) {
+        if (regionals == null || regionals.isEmpty()) {
             System.out.println("Não existem regionais cadastradas, efetue o seu cadastro antes de prosseguir");
             result = false;
         }
@@ -245,11 +237,11 @@ public class EventScreenConsole extends AbstractTelaCabecalho implements TelaIni
         return result;
     }
 
-    public EntradaConsole getEntradaConsole() {
-        return entradaConsole;
+    public ConsoleInput getConsoleInput() {
+        return consoleInput;
     }
 
-    public void setEntradaConsole(EntradaConsole entradaConsole) {
-        this.entradaConsole = entradaConsole;
+    public void setConsoleInput(ConsoleInput consoleInput) {
+        this.consoleInput = consoleInput;
     }
 }

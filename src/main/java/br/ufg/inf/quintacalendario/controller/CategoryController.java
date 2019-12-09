@@ -30,7 +30,7 @@ public class CategoryController extends AbstractController {
      * Show category options on screen
      */
     void showHisOptions() {
-        getCategoryScreen().showOptions();
+        getCategoryScreen().displayOptions();
     }
 
     /**

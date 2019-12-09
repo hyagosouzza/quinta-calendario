@@ -30,7 +30,7 @@ public class InstituteController extends AbstractController {
      * Show category options on screen
      */
     void showHisOptions() {
-        getInstituteScreen().showOptions();
+        getInstituteScreen().displayOptions();
     }
 
     /**

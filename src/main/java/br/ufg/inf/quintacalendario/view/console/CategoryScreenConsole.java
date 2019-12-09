@@ -2,133 +2,132 @@ package br.ufg.inf.quintacalendario.view.console;
 
 import br.ufg.inf.quintacalendario.controller.CategoryController;
 import br.ufg.inf.quintacalendario.model.Category;
-import br.ufg.inf.quintacalendario.view.TelaInicial;
-import br.ufg.inf.quintacalendario.view.console.util.EntradaConsole;
+import br.ufg.inf.quintacalendario.view.HomeView;
+import br.ufg.inf.quintacalendario.view.console.util.ConsoleInput;
 
 import java.io.PrintStream;
 import java.util.List;
 
-public class CategoryScreenConsole extends AbstractTelaCabecalho implements TelaInicial {
+public class CategoryScreenConsole extends AbstractHeaderView implements HomeView {
 
-    private EntradaConsole entradaConsole;
+    private ConsoleInput consoleInput;
 
     public CategoryScreenConsole(PrintStream output) {
         super(output);
-        setEntradaConsole(new EntradaConsole());
+        setConsoleInput(new ConsoleInput());
     }
 
     @Override
-    public void showOptions() {
-        exibaCabecalho();
-        desenharOpcoesInicial();
-        Integer opcao = getEntradaConsole().pergunteInteiro(desenharOpcoesInicial().toString());
+    public void displayOptions() {
+        displayHeader();
+        displayHomeOptions();
+        Integer opcao = getConsoleInput().askForInteger(displayHomeOptions().toString());
         redirect(opcao);
     }
 
     private void redirect(Integer opcao) {
         switch (opcao) {
             case 1:
-                cadastrar();
-                showOptions();
+                createCategory();
+                displayOptions();
                 break;
             case 2:
-                editar();
-                showOptions();
+                editCategory();
+                displayOptions();
                 break;
             case 3:
                 remove();
-                showOptions();
+                displayOptions();
                 break;
             case 4:
-                List<Category> categories = pesquisar();
+                List<Category> categories = queryCategories();
                 if (categories.isEmpty()) {
                     System.out.println("Não existem categorias cadastradas");
                 } else {
-                    printarcategorias(categories);
+                    displayCategories(categories);
                 }
-                showOptions();
+                displayOptions();
                 break;
             case 5:
-                pesquisarPorDescricao();
-                showOptions();
+                queryByDescription();
+                displayOptions();
                 break;
             case 6:
-                new TelaInicialConsole(System.out).showOptions();
+                new HomeViewConsole(System.out).displayOptions();
                 break;
             case 7:
                 break;
             default:
                 System.out.println("Opção invalida");
-                showOptions();
+                displayOptions();
                 break;
         }
     }
 
     public void remove() {
-        List<Category> categories = pesquisar();
+        List<Category> categories = queryCategories();
         if (!categories.isEmpty()) {
-            printarcategorias(categories);
-            Integer codigo = getEntradaConsole().pergunteInteiro("Digite o codigo da Categoria que deseja remover");
+            displayCategories(categories);
+            Integer codigo = getConsoleInput().askForInteger("Digite o codigo da Categoria que deseja remover");
             new CategoryController().remove(codigo);
             System.out.println("Categoria removida com sucesso");
         }
     }
 
-    private void pesquisarPorDescricao() {
-        String descricao = getEntradaConsole().pergunteString("Digite a descrição desejada", true);
+    private void queryByDescription() {
+        String descricao = getConsoleInput().askForString("Digite a descrição desejada", true);
         List<Category> categories = new CategoryController().listRecordsByDescription(descricao);
-        printarcategorias(categories);
+        displayCategories(categories);
     }
 
-    private List<Category> pesquisar() {
-        List<Category> categories = new CategoryController().listRecords();
-        return categories;
+    private List<Category> queryCategories() {
+        return new CategoryController().listRecords();
     }
 
-    private void editar() {
-        List<Category> categories = pesquisar();
+    private void editCategory() {
+        List<Category> categories = queryCategories();
         if (categories.isEmpty()) {
             System.out.println("Não existem categorias cadastradas para se realizar a alteração.");
         } else {
-            printarcategorias(categories);
-            Integer codigo = getEntradaConsole().pergunteInteiro("Digite o codigo da Categoria que deseja editar");
+            displayCategories(categories);
+            Integer codigo = getConsoleInput().askForInteger("Digite o codigo da Categoria que deseja editar");
 
             Category Category = new CategoryController().getById(codigo);
 
             if (Category.getName().isEmpty()) {
                 System.out.println("Categoria não encontrada");
-                editar();
+                editCategory();
             } else {
                 System.out.println(Category.getId() + " - " + Category.getName());
 
-                String nome = getEntradaConsole().pergunteString("Digite o novo nome da Categoria", true);
-                new CategoryController().edit(codigo, nome);
+                String name = getConsoleInput().askForString("Digite o novo nome da Categoria", true);
+                new CategoryController().edit(codigo, name);
 
                 System.out.println("Categoria Alterada Com Sucesso");
             }
         }
     }
 
-    private void cadastrar() {
+    private void createCategory() {
         boolean result = false;
         while (!result) {
-            String nome = getEntradaConsole().pergunteString("Digite o nome da Categoria");
+            String nome = getConsoleInput().askForString("Digite o nome da Categoria");
             result = new CategoryController().register(nome);
         }
 
         System.out.println("Categoria Cadastrada Com Sucesso");
     }
 
-    private void printarcategorias(List<Category> categories) {
+    private void displayCategories(List<Category> categories) {
         categories.stream().forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
     }
 
     @Override
-    public int pergunteOpcao() {
+    public int askQuestion() {
         return 0;
     }
 
-    public String desenharOpcoesInicial() {
+    public String displayHomeOptions() {
         StringBuilder tela = new StringBuilder();
         tela.append("1 - Cadastrar				  \n")
                 .append("2 - Editar					  \n")
@@ -140,11 +139,11 @@ public class CategoryScreenConsole extends AbstractTelaCabecalho implements Tela
         return tela.toString();
     }
 
-    public EntradaConsole getEntradaConsole() {
-        return entradaConsole;
+    public ConsoleInput getConsoleInput() {
+        return consoleInput;
     }
 
-    public void setEntradaConsole(EntradaConsole entradaConsole) {
-        this.entradaConsole = entradaConsole;
+    public void setConsoleInput(ConsoleInput consoleInput) {
+        this.consoleInput = consoleInput;
     }
 }

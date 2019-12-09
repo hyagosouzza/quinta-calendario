@@ -95,7 +95,7 @@ public class EventController extends AbstractController {
 	 * Show category options on screen
 	 */
 	void showHisOptions() {
-		getEventScreen().showOptions();
+		getEventScreen().displayOptions();
 	}
 
     /**

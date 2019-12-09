@@ -25,7 +25,7 @@ class UserController extends AbstractController {
      * Show category options on screen
      */
     void showHisOptions() {
-        getUserScreen().showOptions();
+        getUserScreen().displayOptions();
     }
 
     /**
