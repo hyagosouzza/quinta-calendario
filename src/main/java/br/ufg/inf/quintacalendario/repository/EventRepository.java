@@ -26,39 +26,6 @@ public class EventRepository extends AbstractRepository<Event> {
         return select(jpql.toString(), parametersQuery);
     }
 
-    public List<Event> getByCategory(long idCategory) {
-        StringBuilder jpql = new StringBuilder();
-        jpql.append("select t from event t inner join t.category c ")
-                .append("where c.id = :idCategoria");
-
-        Map<String, Object> parametersQuery = new HashMap<>();
-        parametersQuery.put("idCategoria", idCategory);
-
-        return select(jpql.toString(), parametersQuery);
-    }
-
-    public List<Event> getByInstitute(long idInstitute) {
-        StringBuilder jpql = new StringBuilder();
-        jpql.append("select t from event t inner join t.institutes i ")
-                .append("where i.id = :idInstituto");
-
-        Map<String, Object> parametersQuery = new HashMap<>();
-        parametersQuery.put("idInstituto", idInstitute);
-
-        return select(jpql.toString(), parametersQuery);
-    }
-
-    public List<Event> listarPorRegional(long idRegional) {
-        StringBuilder jpql = new StringBuilder();
-        jpql.append("select t from event t inner join t.regionais r ")
-                .append("where r.id = :idRegional");
-
-        Map<String, Object> parametersQuery = new HashMap<>();
-        parametersQuery.put("idRegional", idRegional);
-
-        return select(jpql.toString(), parametersQuery);
-    }
-
     public List<Event> getByPeriod(Date initialDate, Date finalDate) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("select t from event t ")

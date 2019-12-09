@@ -91,36 +91,6 @@ public class EventService {
     }
 
     /**
-     * List events by category
-     * @param categoryId id of the category to be searched by
-     * @return a list of Events
-     */
-    public List<Event> getByCategory(long categoryId) {
-        Session session = sessionFactory.openSession();
-        return new EventRepository(session).getByCategory(categoryId);
-    }
-
-    /**
-     * List events by institute
-     * @param instituteId id of the institute to be searched by
-     * @return a list of Events
-     */
-    public List<Event> getByInstitute(long instituteId) {
-        Session session = sessionFactory.openSession();
-        return new EventRepository(session).getByInstitute(instituteId);
-    }
-
-    /**
-     * List events by regional
-     * @param regionalId id of the regional to be searched by
-     * @return a list of Events
-     */
-    public List<Event> getByRegional(long regionalId) {
-        Session session = sessionFactory.openSession();
-        return new EventRepository(session).listarPorRegional(regionalId);
-    }
-
-    /**
      * List events by a given period
      * @param startDate start date of the period
      * @param endDate end date of the period
