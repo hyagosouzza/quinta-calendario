@@ -16,7 +16,7 @@ public class RegionalRepository extends AbstractRepository<Regional> {
     @Override
     public List<Regional> getByDecription(String description) {
         StringBuilder jpql = new StringBuilder();
-        jpql.append("Select t from regional t where t.nome like :description");
+        jpql.append("Select t from regional t where t.name like :description");
 
         Map<String, Object> parametersQuery = new HashMap<>();
 

@@ -17,11 +17,11 @@ public class EventRepository extends AbstractRepository<Event> {
     @Override
     public List<Event> getByDecription(String description) {
         StringBuilder jpql = new StringBuilder();
-        jpql.append("Select t from event t where t.descricao like :descricao");
+        jpql.append("Select t from event t where t.description like :description");
 
         Map<String, Object> parametersQuery = new HashMap<>();
 
-        parametersQuery.put("descricao", "%" + description + "%");
+        parametersQuery.put("description", "%" + description + "%");
 
         return select(jpql.toString(), parametersQuery);
     }
@@ -62,12 +62,12 @@ public class EventRepository extends AbstractRepository<Event> {
     public List<Event> getByPeriod(Date initialDate, Date finalDate) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("select t from event t ")
-                .append("where t.dataInicial >= :dataInicial and t.dataFinal <= :dataFinal");
+                .append("where t.initialDate >= :initialDate and t.finalDate <= :finalDate");
 
         Map<String, Object> parametersQuery = new HashMap<>();
 
-        parametersQuery.put("dataInicial", initialDate);
-        parametersQuery.put("dataFinal", finalDate);
+        parametersQuery.put("initialDate", initialDate);
+        parametersQuery.put("finalDate", finalDate);
 
         return select(jpql.toString(), parametersQuery);
     }
@@ -75,11 +75,11 @@ public class EventRepository extends AbstractRepository<Event> {
     public List<Event> getByInitialDate(Date initialDate) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("select t from event t ")
-                .append("where t.dataInicial = :dataInicial");
+                .append("where t.initialDate = :initialDate");
 
         Map<String, Object> parametersQuery = new HashMap<>();
 
-        parametersQuery.put("dataInicial", initialDate);
+        parametersQuery.put("initialDate", initialDate);
 
         return select(jpql.toString(), parametersQuery);
     }
