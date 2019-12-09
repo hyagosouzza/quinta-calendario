@@ -3,27 +3,39 @@ package br.ufg.inf.quintacalendario.view.console;
 import br.ufg.inf.quintacalendario.controller.CategoryController;
 import br.ufg.inf.quintacalendario.model.Category;
 import br.ufg.inf.quintacalendario.view.HomeView;
-import br.ufg.inf.quintacalendario.view.console.util.ConsoleInput;
+import br.ufg.inf.quintacalendario.view.console.util.ConsoleWrapper;
 
-import java.io.PrintStream;
 import java.util.List;
 
+/**
+ * Console implementation for the Categories management
+ */
 public class CategoryScreenConsole extends AbstractHeaderView implements HomeView {
 
-    private ConsoleInput consoleInput;
+    private ConsoleWrapper console;
     private CategoryController categoryController;
 
-    public CategoryScreenConsole(PrintStream output, CategoryController categoryController) {
-        super(output);
-        setConsoleInput(new ConsoleInput());
+    /**
+     * @param console            Output for printing
+     * @param categoryController controller for the category logic
+     */
+    public CategoryScreenConsole(
+            ConsoleWrapper console,
+            CategoryController categoryController
+    ) {
+        super(console);
+        setConsole(console);
         this.categoryController = categoryController;
     }
 
+    /**
+     * Displays category options
+     */
     @Override
     public void displayOptions() {
         displayHeader();
         displayHomeOptions();
-        Integer opcao = getConsoleInput().askForInteger(displayHomeOptions());
+        Integer opcao = console.askForInteger(displayHomeOptions());
         redirect(opcao);
     }
 
@@ -44,7 +56,7 @@ public class CategoryScreenConsole extends AbstractHeaderView implements HomeVie
             case 4:
                 List<Category> categories = queryCategories();
                 if (categories.isEmpty()) {
-                    System.out.println("Não existem categorias cadastradas");
+                    console.println("Não existem categorias cadastradas");
                 } else {
                     displayCategories(categories);
                 }
@@ -55,29 +67,32 @@ public class CategoryScreenConsole extends AbstractHeaderView implements HomeVie
                 displayOptions();
                 break;
             case 6:
-                new HomeViewConsole(System.out).displayOptions();
+                new HomeViewConsole(output).displayOptions();
                 break;
             case 7:
                 break;
             default:
-                System.out.println("Opção invalida");
+                console.println("Opção invalida");
                 displayOptions();
                 break;
         }
     }
 
+    /**
+     * Displays logic for category removal
+     */
     public void remove() {
         List<Category> categories = queryCategories();
         if (!categories.isEmpty()) {
             displayCategories(categories);
-            Integer codigo = getConsoleInput().askForInteger("Digite o codigo da Categoria que deseja remover");
+            Integer codigo = console.askForInteger("Digite o codigo da Categoria que deseja remover");
             categoryController.remove(codigo);
-            System.out.println("Categoria removida com sucesso");
+            console.println("Categoria removida com sucesso");
         }
     }
 
     private void queryByDescription() {
-        String descricao = getConsoleInput().askForString("Digite a descrição desejada", true);
+        String descricao = console.askForString("Digite a descrição desejada", true);
         List<Category> categories = categoryController.listRecordsByDescription(descricao);
         displayCategories(categories);
     }
@@ -89,23 +104,23 @@ public class CategoryScreenConsole extends AbstractHeaderView implements HomeVie
     private void editCategory() {
         List<Category> categories = queryCategories();
         if (categories.isEmpty()) {
-            System.out.println("Não existem categorias cadastradas para se realizar a alteração.");
+            console.println("Não existem categorias cadastradas para se realizar a alteração.");
         } else {
             displayCategories(categories);
-            Integer codigo = getConsoleInput().askForInteger("Digite o codigo da Categoria que deseja editar");
+            Integer codigo = console.askForInteger("Digite o codigo da Categoria que deseja editar");
 
             Category Category = categoryController.getById(codigo);
 
             if (Category.getName().isEmpty()) {
-                System.out.println("Categoria não encontrada");
+                console.println("Categoria não encontrada");
                 editCategory();
             } else {
-                System.out.println(Category.getId() + " - " + Category.getName());
+                console.println(Category.getId() + " - " + Category.getName());
 
-                String name = getConsoleInput().askForString("Digite o novo nome da Categoria", true);
+                String name = console.askForString("Digite o novo nome da Categoria", true);
                 categoryController.edit(codigo, name);
 
-                System.out.println("Categoria Alterada Com Sucesso");
+                console.println("Categoria Alterada Com Sucesso");
             }
         }
     }
@@ -113,15 +128,15 @@ public class CategoryScreenConsole extends AbstractHeaderView implements HomeVie
     private void createCategory() {
         boolean result = false;
         while (!result) {
-            String nome = getConsoleInput().askForString("Digite o nome da Categoria");
+            String nome = console.askForString("Digite o nome da Categoria");
             result = categoryController.register(nome);
         }
 
-        System.out.println("Categoria Cadastrada Com Sucesso");
+        console.println("Categoria Cadastrada Com Sucesso");
     }
 
     private void displayCategories(List<Category> categories) {
-        categories.stream().forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
+        categories.forEach(x -> console.println(x.getId() + " - " + x.getName()));
     }
 
     @Override
@@ -130,22 +145,20 @@ public class CategoryScreenConsole extends AbstractHeaderView implements HomeVie
     }
 
     public String displayHomeOptions() {
-        StringBuilder tela = new StringBuilder();
-        tela.append("1 - Cadastrar				  \n")
-                .append("2 - Editar					  \n")
-                .append("3 - Remover				  \n")
-                .append("4 - Pesquisar todos		  \n")
-                .append("5 - Pesquisar por descrição  \n")
-                .append("6 - Voltar ao menu principal \n")
-                .append("7 - Sair 					  \n");
-        return tela.toString();
+        return "1 - Cadastrar				  \n" +
+                "2 - Editar					  \n" +
+                "3 - Remover				  \n" +
+                "4 - Pesquisar todos		  \n" +
+                "5 - Pesquisar por descrição  \n" +
+                "6 - Voltar ao menu principal \n" +
+                "7 - Sair 					  \n";
     }
 
-    public ConsoleInput getConsoleInput() {
-        return consoleInput;
+    public ConsoleWrapper getConsole() {
+        return console;
     }
 
-    public void setConsoleInput(ConsoleInput consoleInput) {
-        this.consoleInput = consoleInput;
+    public void setConsole(ConsoleWrapper console) {
+        this.console = console;
     }
 }

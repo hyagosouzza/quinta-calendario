@@ -3,19 +3,19 @@ package br.ufg.inf.quintacalendario.view.console;
 import br.ufg.inf.quintacalendario.controller.RegionalController;
 import br.ufg.inf.quintacalendario.model.Regional;
 import br.ufg.inf.quintacalendario.view.HomeView;
-import br.ufg.inf.quintacalendario.view.console.util.ConsoleInput;
+import br.ufg.inf.quintacalendario.view.console.util.ConsoleWrapper;
 
 import java.io.PrintStream;
 import java.util.List;
 
 public class RegionalScreenConsole extends AbstractHeaderView implements HomeView {
 
-    private ConsoleInput consoleInput;
+    private ConsoleWrapper consoleWrapper;
     private RegionalController regionalController;
 
     public RegionalScreenConsole(PrintStream output, RegionalController regionalController) {
         super(output);
-        setConsoleInput(new ConsoleInput());
+        setConsoleWrapper(new ConsoleWrapper());
         this.regionalController = regionalController;
     }
 
@@ -23,7 +23,7 @@ public class RegionalScreenConsole extends AbstractHeaderView implements HomeVie
     public void displayOptions() {
         displayHeader();
         displayInitialOptions();
-        Integer opcao = getConsoleInput().askForInteger(displayInitialOptions());
+        Integer opcao = getConsoleWrapper().askForInteger(displayInitialOptions());
         redirect(opcao);
     }
 
@@ -70,14 +70,14 @@ public class RegionalScreenConsole extends AbstractHeaderView implements HomeVie
         List<Regional> regionals = queryRegionals();
         if (!regionals.isEmpty()) {
             displayRegionals(regionals);
-            Integer codigo = getConsoleInput().askForInteger("Digite o codigo da regional que deseja remover");
+            Integer codigo = getConsoleWrapper().askForInteger("Digite o codigo da regional que deseja remover");
             regionalController.remove(codigo);
             System.out.println("Regional removida com sucesso");
         }
     }
 
     private void queryByDescription() {
-        String descricao = getConsoleInput().askForString("Digite a descrição desejada", true);
+        String descricao = getConsoleWrapper().askForString("Digite a descrição desejada", true);
         List<Regional> regionais = regionalController.listRecordsByDescription(descricao);
         displayRegionals(regionais);
     }
@@ -92,7 +92,7 @@ public class RegionalScreenConsole extends AbstractHeaderView implements HomeVie
             System.out.println("Não existem regionais cadastradas para se realizar a alteração.");
         } else {
             displayRegionals(regionais);
-            Integer codigo = getConsoleInput().askForInteger("Digite o codigo da regional que deseja editar");
+            Integer codigo = getConsoleWrapper().askForInteger("Digite o codigo da regional que deseja editar");
 
             Regional regional = regionalController.getById(codigo);
 
@@ -102,7 +102,7 @@ public class RegionalScreenConsole extends AbstractHeaderView implements HomeVie
             } else {
                 System.out.println(regional.getId() + " - " + regional.getName());
 
-                String nome = getConsoleInput().askForString("Digite o novo nome da Regional", true);
+                String nome = getConsoleWrapper().askForString("Digite o novo nome da Regional", true);
                 regionalController.edit(codigo, nome);
 
                 System.out.println("Regional Alterada Com Sucesso");
@@ -113,7 +113,7 @@ public class RegionalScreenConsole extends AbstractHeaderView implements HomeVie
     private void createRegional() {
         boolean result = false;
         while (!result) {
-            String nome = getConsoleInput().askForString("Digite o nome da regional");
+            String nome = getConsoleWrapper().askForString("Digite o nome da regional");
             result = regionalController.register(nome);
         }
 
@@ -139,11 +139,11 @@ public class RegionalScreenConsole extends AbstractHeaderView implements HomeVie
                 "7 - Sair 					  \n";
     }
 
-    public ConsoleInput getConsoleInput() {
-        return consoleInput;
+    public ConsoleWrapper getConsoleWrapper() {
+        return consoleWrapper;
     }
 
-    public void setConsoleInput(ConsoleInput consoleInput) {
-        this.consoleInput = consoleInput;
+    public void setConsoleWrapper(ConsoleWrapper consoleWrapper) {
+        this.consoleWrapper = consoleWrapper;
     }
 }

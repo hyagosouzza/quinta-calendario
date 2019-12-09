@@ -6,19 +6,19 @@ import br.ufg.inf.quintacalendario.model.Event;
 import br.ufg.inf.quintacalendario.model.Institute;
 import br.ufg.inf.quintacalendario.model.Regional;
 import br.ufg.inf.quintacalendario.view.HomeView;
-import br.ufg.inf.quintacalendario.view.console.util.ConsoleInput;
+import br.ufg.inf.quintacalendario.view.console.util.ConsoleWrapper;
 
 import java.io.PrintStream;
 import java.util.List;
 
 public class EventScreenConsole extends AbstractHeaderView implements HomeView {
 
-    private ConsoleInput consoleInput;
+    private ConsoleWrapper consoleWrapper;
     private EventController eventController;
 
     public EventScreenConsole(PrintStream out, EventController eventController) {
         super(out);
-        setConsoleInput(new ConsoleInput());
+        setConsoleWrapper(new ConsoleWrapper());
         this.eventController = eventController;
     }
 
@@ -26,7 +26,7 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
     public void displayOptions() {
         displayHeader();
         displayInitialOption();
-        Integer opcao = getConsoleInput().askForInteger(displayInitialOption().toString());
+        Integer opcao = getConsoleWrapper().askForInteger(displayInitialOption().toString());
         redirect(opcao);
     }
 
@@ -92,7 +92,7 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
     }
 
     private void listarPorDescricao() {
-        String descricaoEvento = getConsoleInput().askForString("Digite a descricão do evento", true);
+        String descricaoEvento = getConsoleWrapper().askForString("Digite a descricão do evento", true);
         List<Event> events = eventController.listRecordsByDescription(descricaoEvento);
         if (events.isEmpty()) {
             System.out.println("Não existem eventos cadastrados com essa descrição");
@@ -102,8 +102,8 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
     }
 
     public void queryByDateRange() {
-        String dataInicial = getConsoleInput().askForString("Digite a data inicial, no formato dd/MM/YYYY", true);
-        String dataFinal = getConsoleInput().askForString("Digite a data final, no formato dd/MM/YYYY", true);
+        String dataInicial = getConsoleWrapper().askForString("Digite a data inicial, no formato dd/MM/YYYY", true);
+        String dataFinal = getConsoleWrapper().askForString("Digite a data final, no formato dd/MM/YYYY", true);
 
         List<Event> events = eventController.listByPeriod(dataInicial, dataFinal);
         if (events.isEmpty()) {
@@ -122,10 +122,10 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
     private void createEvent() {
         if (validadeEventData()) {
 
-            String title = getConsoleInput().askForString("Digite o titulo do evento", true);
-            String description = getConsoleInput().askForString("Digite a descricão do evento", true);
-            String initialDate = getConsoleInput().askForString("Digite a data inicial do evento, no formato dd/MM/YYYY", true);
-            String finalDate = getConsoleInput().askForString("Digite a data final do evento, no formato dd/MM/YYYY", true);
+            String title = getConsoleWrapper().askForString("Digite o titulo do evento", true);
+            String description = getConsoleWrapper().askForString("Digite a descricão do evento", true);
+            String initialDate = getConsoleWrapper().askForString("Digite a data inicial do evento, no formato dd/MM/YYYY", true);
+            String finalDate = getConsoleWrapper().askForString("Digite a data final do evento, no formato dd/MM/YYYY", true);
 
             int categoryCode = selectCategoryCode();
             int regionalCode = selectRegionalCode();
@@ -145,7 +145,7 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
         do {
             Integer codigo;
             regionais.forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
-            codigo = getConsoleInput().askForInteger("Digite o codigo da regional do evento");
+            codigo = getConsoleWrapper().askForInteger("Digite o codigo da regional do evento");
 
             result = (regionais.stream().anyMatch(x -> x.getId() == codigo));
 
@@ -168,7 +168,7 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
         do {
             Integer codigo;
             institutes.forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
-            codigo = getConsoleInput().askForInteger("Digite o codigo do instituto do evento");
+            codigo = getConsoleWrapper().askForInteger("Digite o codigo do instituto do evento");
 
             result = (institutes.stream().anyMatch(x -> x.getId() == codigo));
 
@@ -191,7 +191,7 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
         do {
             Integer codigo;
             categories.forEach(x -> System.out.println(x.getId() + " - " + x.getName()));
-            codigo = getConsoleInput().askForInteger("Digite o codigo da categoria do evento");
+            codigo = getConsoleWrapper().askForInteger("Digite o codigo da categoria do evento");
 
             result = (categories.stream().anyMatch(x -> x.getId() == codigo));
 
@@ -231,11 +231,11 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
         return result;
     }
 
-    public ConsoleInput getConsoleInput() {
-        return consoleInput;
+    public ConsoleWrapper getConsoleWrapper() {
+        return consoleWrapper;
     }
 
-    public void setConsoleInput(ConsoleInput consoleInput) {
-        this.consoleInput = consoleInput;
+    public void setConsoleWrapper(ConsoleWrapper consoleWrapper) {
+        this.consoleWrapper = consoleWrapper;
     }
 }

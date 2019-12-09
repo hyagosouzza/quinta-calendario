@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 public class AbstractHeaderView implements HeaderView, OutputAware {
     private static final String HEADER_PATH = "/view/header.txt";
     private String headerContent;
-    private PrintStream output;
+    protected PrintStream output;
 
     public AbstractHeaderView(PrintStream output) {
         this();

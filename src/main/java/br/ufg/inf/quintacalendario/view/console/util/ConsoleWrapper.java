@@ -1,15 +1,24 @@
 package br.ufg.inf.quintacalendario.view.console.util;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Scanner;
-
-import static java.lang.System.in;
-import static java.lang.System.out;
 
 /**
  * Classe auxiliar para encapsular a leitura de entrada do usuário no console.
  */
-public class ConsoleInput {
-    private Scanner scanner = new Scanner(in);
+public class ConsoleWrapper extends PrintStream {
+    private Scanner scanner;
+
+    public ConsoleWrapper() {
+        this(System.in, System.out);
+    }
+
+    public ConsoleWrapper(InputStream in, OutputStream out) {
+        super(out);
+        scanner = new Scanner(in);
+    }
 
     /**
      * Imprime uma question para o usuário e lê a entrada, esperando que seja um Inteiro
@@ -29,7 +38,7 @@ public class ConsoleInput {
                 integerInput = Integer.parseInt(stringInput);
                 validInput = true;
             } catch (NumberFormatException ignored) {
-                out.println("Entrada inválida. Tente novamente");
+                println("Entrada inválida. Tente novamente");
                 validInput = false;
                 stringInput = askForString(question);
             }
@@ -46,14 +55,14 @@ public class ConsoleInput {
      * @return O texto que o usuário inseriu
      */
     public String askForString(String question) throws NumberFormatException {
-        out.println(question);
+        println(question);
         return scanner.nextLine();
     }
 
     /**
      * Imprime uma question para o usuário e lê o texto de entrada, podendo
      *
-     * @param question       O texto da pergutna que deve ser feita
+     * @param question O texto da pergutna que deve ser feita
      * @param required Flag para indicar se deve bloquear texto em branco
      * @return O texto que o usuário inseriu
      */

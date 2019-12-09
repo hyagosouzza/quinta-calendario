@@ -3,19 +3,19 @@ package br.ufg.inf.quintacalendario.view.console;
 import br.ufg.inf.quintacalendario.controller.InstituteController;
 import br.ufg.inf.quintacalendario.model.Institute;
 import br.ufg.inf.quintacalendario.view.HomeView;
-import br.ufg.inf.quintacalendario.view.console.util.ConsoleInput;
+import br.ufg.inf.quintacalendario.view.console.util.ConsoleWrapper;
 
 import java.io.PrintStream;
 import java.util.List;
 
 public class InstituteScreenConsole extends AbstractHeaderView implements HomeView {
 
-    private ConsoleInput consoleInput;
+    private ConsoleWrapper consoleWrapper;
     private InstituteController instituteController;
 
     public InstituteScreenConsole(PrintStream output, InstituteController instituteController) {
         super(output);
-        setConsoleInput(new ConsoleInput());
+        setConsoleWrapper(new ConsoleWrapper());
         this.instituteController = instituteController;
     }
 
@@ -23,7 +23,7 @@ public class InstituteScreenConsole extends AbstractHeaderView implements HomeVi
     public void displayOptions() {
         displayHeader();
         displayInitialOptions();
-        Integer option = getConsoleInput().askForInteger(displayInitialOptions());
+        Integer option = getConsoleWrapper().askForInteger(displayInitialOptions());
         redirect(option);
     }
 
@@ -70,14 +70,14 @@ public class InstituteScreenConsole extends AbstractHeaderView implements HomeVi
         List<Institute> institutes = queryInstitutes();
         if (!institutes.isEmpty()) {
             displayInstitutes(institutes);
-            Integer codigo = getConsoleInput().askForInteger("Digite o codigo da Instituto que deseja remover");
+            Integer codigo = getConsoleWrapper().askForInteger("Digite o codigo da Instituto que deseja remover");
             instituteController.remove(codigo);
             System.out.println("Instituto removida com sucesso");
         }
     }
 
     private void queryByDescription() {
-        String descricao = getConsoleInput().askForString("Digite a descrição desejada", true);
+        String descricao = getConsoleWrapper().askForString("Digite a descrição desejada", true);
         List<Institute> institutes = instituteController.listRecordsByDescription(descricao);
         displayInstitutes(institutes);
     }
@@ -92,7 +92,7 @@ public class InstituteScreenConsole extends AbstractHeaderView implements HomeVi
             System.out.println("Não existem institutos cadastrados para se realizar a alteração.");
         } else {
             displayInstitutes(institutes);
-            Integer codigo = getConsoleInput().askForInteger("Digite o codigo da Instituto que deseja editar");
+            Integer codigo = getConsoleWrapper().askForInteger("Digite o codigo da Instituto que deseja editar");
 
             Institute institute = instituteController.getById(codigo);
 
@@ -102,7 +102,7 @@ public class InstituteScreenConsole extends AbstractHeaderView implements HomeVi
             } else {
                 System.out.println(institute.getId() + " - " + institute.getName());
 
-                String nome = getConsoleInput().askForString("Digite o novo nome do Instituto", true);
+                String nome = getConsoleWrapper().askForString("Digite o novo nome do Instituto", true);
                 instituteController.edit(codigo, nome);
 
                 System.out.println("Instituto Alterado Com Sucesso");
@@ -113,7 +113,7 @@ public class InstituteScreenConsole extends AbstractHeaderView implements HomeVi
     private void createInstitute() {
         boolean result = false;
         while (!result) {
-            String nome = getConsoleInput().askForString("Digite o nome do Instituto");
+            String nome = getConsoleWrapper().askForString("Digite o nome do Instituto");
             result = instituteController.register(nome);
         }
 
@@ -139,12 +139,12 @@ public class InstituteScreenConsole extends AbstractHeaderView implements HomeVi
                 "7 - Sair 					  \n";
     }
 
-    public ConsoleInput getConsoleInput() {
-        return consoleInput;
+    public ConsoleWrapper getConsoleWrapper() {
+        return consoleWrapper;
     }
 
-    public void setConsoleInput(ConsoleInput consoleInput) {
-        this.consoleInput = consoleInput;
+    public void setConsoleWrapper(ConsoleWrapper consoleWrapper) {
+        this.consoleWrapper = consoleWrapper;
     }
 
 }

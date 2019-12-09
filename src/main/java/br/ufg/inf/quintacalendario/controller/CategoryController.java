@@ -4,6 +4,7 @@ import br.ufg.inf.quintacalendario.main.Application;
 import br.ufg.inf.quintacalendario.model.Category;
 import br.ufg.inf.quintacalendario.service.CategoryService;
 import br.ufg.inf.quintacalendario.view.console.CategoryScreenConsole;
+import br.ufg.inf.quintacalendario.view.console.util.ConsoleWrapper;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +24,7 @@ public class CategoryController extends AbstractController {
      */
     public CategoryController() {
         super(Application.getInstance().getSessionFactory());
-        categoryScreen = new CategoryScreenConsole(System.out, this);
+        categoryScreen = new CategoryScreenConsole(new ConsoleWrapper(), this);
     }
 
     /**

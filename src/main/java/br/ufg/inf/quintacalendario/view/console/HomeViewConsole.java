@@ -2,7 +2,7 @@ package br.ufg.inf.quintacalendario.view.console;
 
 import br.ufg.inf.quintacalendario.controller.HomePageController;
 import br.ufg.inf.quintacalendario.view.HomeView;
-import br.ufg.inf.quintacalendario.view.console.util.ConsoleInput;
+import br.ufg.inf.quintacalendario.view.console.util.ConsoleWrapper;
 
 import java.io.PrintStream;
 
@@ -19,7 +19,7 @@ public class HomeViewConsole extends AbstractHeaderView implements HomeView {
 
     @Override
     public void displayOptions() {
-        int opcao = new ConsoleInput().askForInteger(displayOption());
+        int opcao = new ConsoleWrapper().askForInteger(displayOption());
         new HomePageController().redirectScreenBy(opcao);
     }
 
