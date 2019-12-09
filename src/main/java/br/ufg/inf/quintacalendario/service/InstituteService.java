@@ -93,7 +93,7 @@ public class InstituteService {
      */
     public List<Institute> getRecordsByDescription(String description) {
         Session session = sessionFactory.openSession();
-        return new InstituteRepository(session).getByDecription(description);
+        return new InstituteRepository(session).getByName(description);
     }
 
     /**

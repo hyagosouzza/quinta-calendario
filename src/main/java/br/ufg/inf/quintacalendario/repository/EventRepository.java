@@ -15,7 +15,7 @@ public class EventRepository extends AbstractRepository<Event> {
     }
 
     @Override
-    public List<Event> getByDecription(String description) {
+    public List<Event> getByName(String description) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("Select t from event t where t.description like :description");
 

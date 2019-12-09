@@ -87,12 +87,12 @@ public class CategoryService {
 
     /**
      * List categories by description
-     * @param description description to be searched by
+     * @param name name to be searched by
      * @return a list of categories
      */
-    public List<Category> getRecordsByDescription(String description) {
+    public List<Category> getRecordsByName(String name) {
         Session session = sessionFactory.openSession();
-        return new CategoryRepository(session).getByDecription(description);
+        return new CategoryRepository(session).getByName(name);
     }
 
     /**

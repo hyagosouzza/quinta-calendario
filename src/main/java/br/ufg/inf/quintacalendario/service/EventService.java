@@ -77,7 +77,7 @@ public class EventService {
      */
     public List<Event> getRecordsByDescription(String description) {
         Session session = sessionFactory.openSession();
-        return new EventRepository(session).getByDecription(description);
+        return new EventRepository(session).getByName(description);
     }
 
     /**

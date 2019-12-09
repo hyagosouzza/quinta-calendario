@@ -109,14 +109,14 @@ public class CategoryServiceTest {
         category.setName("Creating Category");
         categoryServiceUnderTest.save(category);
 
-        List<Category> categories = categoryServiceUnderTest.getRecordsByDescription("Creating Category");
+        List<Category> categories = categoryServiceUnderTest.getRecordsByName("Creating Category");
 
         Assert.assertEquals(1, categories.size());
     }
 
     @Test
     public void testListByDescriptionReturnsEmptyList() {
-        List<Category> categories = categoryServiceUnderTest.getRecordsByDescription("409");
+        List<Category> categories = categoryServiceUnderTest.getRecordsByName("409");
 
         assertEquals(Collections.emptyList(), categories);
     }

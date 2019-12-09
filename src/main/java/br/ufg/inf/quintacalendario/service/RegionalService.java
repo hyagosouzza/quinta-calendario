@@ -102,7 +102,7 @@ public class RegionalService {
      */
     public List<Regional> getRecordsByDescription(String description) {
         Session session = sessionFactory.openSession();
-        return new RegionalRepository(session).getByDecription(description);
+        return new RegionalRepository(session).getByName(description);
     }
 
     /**

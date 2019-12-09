@@ -65,7 +65,7 @@ public class CategoryController extends AbstractController {
      */
     public List<Category> listRecordsByDescription(String description) {
         CategoryService categoryService = new CategoryService(getAbstractSessionFactory());
-        return categoryService.getRecordsByDescription(description);
+        return categoryService.getRecordsByName(description);
     }
 
     /**

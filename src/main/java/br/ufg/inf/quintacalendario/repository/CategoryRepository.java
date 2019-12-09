@@ -14,12 +14,12 @@ public class CategoryRepository extends AbstractRepository<Category> {
     }
 
     @Override
-    public List<Category> getByDecription(String description) {
+    public List<Category> getByName(String name) {
         StringBuilder jpql = new StringBuilder();
-        jpql.append("Select t from category t where t.name like :description");
+        jpql.append("Select t from category t where t.name like :name");
 
         Map<String, Object> parametersQuery = new HashMap<>();
-        parametersQuery.put("description", "%" + description + "%");
+        parametersQuery.put("name", "%" + name + "%");
 
         return select(jpql.toString(), parametersQuery);
     }

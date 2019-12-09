@@ -14,7 +14,7 @@ public class InstituteRepository extends AbstractRepository<Institute> {
     }
 
     @Override
-    public List<Institute> getByDecription(String description) {
+    public List<Institute> getByName(String description) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("Select t from institute t where t.name like :description");
 

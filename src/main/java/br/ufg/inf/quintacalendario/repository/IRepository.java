@@ -9,7 +9,7 @@ public interface IRepository<T> {
 
     public List<T> get();
 
-    public List<T> getByDecription(String description);
+    public List<T> getByName(String description);
 
     public T getById(long id);
 
