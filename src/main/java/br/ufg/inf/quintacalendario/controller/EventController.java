@@ -27,192 +27,191 @@ import java.util.Objects;
  */
 public class EventController extends AbstractController {
 
-	private EventScreenConsole eventScreen;
+    private EventScreenConsole eventScreen;
 
-	/**
-	 * Constructor's class
-	 */
-	public EventController() {
-		super(Application.getInstance().getSessionFactory());
-		setEventScreen(new EventScreenConsole(System.out));
-	}
+    /**
+     * Constructor's class
+     */
+    public EventController() {
+        super(Application.getInstance().getSessionFactory());
+        setEventScreen(new EventScreenConsole(System.out, this));
+    }
 
-	/**
-	 * Register a new event with received params
-	 *
-	 * @param description description of event to create
-	 * @param title       title of event to create
-	 * @param initialDate initial date of event to create
-	 * @param finalDate   final date of event to create
-	 * @param categoryId   category identifier of event to create
-	 * @param regionalId   regional identifier of event to create
-	 * @param instituteId   institute identifier of event to create
-	 * @return boolean representing success or error
-	 */
-	public boolean register(String description,
-							String title,
-							String initialDate,
-							String finalDate,
-							Integer categoryId,
-							Integer regionalId,
-							Integer instituteId
-	) {
+    /**
+     * Register a new event with received params
+     *
+     * @param description description of event to create
+     * @param title       title of event to create
+     * @param initialDate initial date of event to create
+     * @param finalDate   final date of event to create
+     * @param categoryId  category identifier of event to create
+     * @param regionalId  regional identifier of event to create
+     * @param instituteId institute identifier of event to create
+     * @return boolean representing success or error
+     */
+    public boolean register(String description,
+                            String title,
+                            String initialDate,
+                            String finalDate,
+                            Integer categoryId,
+                            Integer regionalId,
+                            Integer instituteId
+    ) {
+        try {
+            Event event = new Event();
 
-		try {
-			Event event = new Event();
+            event.setDescription(description);
+            event.setTitle(title);
 
-			event.setDescription(description);
-			event.setTitle(title);
+            Date data = from(initialDate);
+            event.setInitialDate(data);
 
-			Date data = from(initialDate);
-			event.setInitialDate(data);
+            data = from(finalDate);
+            event.setFinalDate(data);
 
-			data = from(finalDate);
-			event.setFinalDate(data);
+            event.setCategory(new CategoryService(getAbstractSessionFactory()).getById(categoryId));
 
-			event.setCategory(new CategoryService(getAbstractSessionFactory()).getById(categoryId));
+            List<Institute> institutes = new ArrayList<>();
+            institutes.add(new InstituteService(getAbstractSessionFactory()).getById(instituteId));
 
-			List<Institute> institutes = new ArrayList<>();
-			institutes.add(new InstituteService(getAbstractSessionFactory()).getById(instituteId));
+            event.setInstitutes(institutes);
 
-			event.setInstitutes(institutes);
+            List<Regional> regionals = new ArrayList<>();
+            regionals.add(new RegionalService(getAbstractSessionFactory()).getById(regionalId));
 
-			List<Regional> regionals = new ArrayList<>();
-			regionals.add(new RegionalService(getAbstractSessionFactory()).getById(regionalId));
+            event.setRegionals(regionals);
 
-			event.setRegionals(regionals);
+            EventService eventService = new EventService(getAbstractSessionFactory());
+            eventService.save(event);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
 
-			EventService eventService = new EventService(getAbstractSessionFactory());
-			eventService.save(event);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Show category options on screen
-	 */
-	void showHisOptions() {
-		getEventScreen().displayOptions();
-	}
+    /**
+     * Show category options on screen
+     */
+    void showHisOptions() {
+        getEventScreen().displayOptions();
+    }
 
     /**
      * Convert a string to date
      *
      * @param date string representing a date
      * @return Date converted date
-     * @exception ParseException
+     * @throws ParseException
      */
-	private Date from(String date) {
-		if (Objects.isNull(date) || date.isEmpty()) {
-			return null;
-		}
+    private Date from(String date) {
+        if (Objects.isNull(date) || date.isEmpty()) {
+            return null;
+        }
 
-		Date newDate = null;
-		try {
-			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-			newDate = formatter.parse(date);
-		} catch (ParseException e) {
-			System.out.println(e.getMessage());
-		}
-		return newDate;
-	}
+        Date newDate = null;
+        try {
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            newDate = formatter.parse(date);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
+        return newDate;
+    }
 
-	/**
-	 * Returns all event records on database
-	 *
-	 * @return list of records
-	 */
-	public List<Event> listRecords() {
-		EventService eventService = new EventService(getAbstractSessionFactory());
-		return eventService.getRecords();
-	}
+    /**
+     * Returns all event records on database
+     *
+     * @return list of records
+     */
+    public List<Event> listRecords() {
+        EventService eventService = new EventService(getAbstractSessionFactory());
+        return eventService.getRecords();
+    }
 
-	/**
-	 * Returns all event records on database filtering by their description
-	 *
-	 * @param description field used on query filter
-	 * @return list of records filtered by description
-	 */
-	public List<Event> listRecordsByDescription(String description) {
-		EventService eventService = new EventService(getAbstractSessionFactory());
-		return eventService.getRecordsByDescription(description);
-	}
+    /**
+     * Returns all event records on database filtering by their description
+     *
+     * @param description field used on query filter
+     * @return list of records filtered by description
+     */
+    public List<Event> listRecordsByDescription(String description) {
+        EventService eventService = new EventService(getAbstractSessionFactory());
+        return eventService.getRecordsByDescription(description);
+    }
 
-	/**
-	 * Returns a single event record on database filtering by your id
-	 *
-	 * @param id event identifier
-	 * @return event with specified identifier
-	 * @see Event
-	 */
-	public Event getById(Integer id) {
-		EventService eventService = new EventService(getAbstractSessionFactory());
-		return eventService.getById(id);
-	}
+    /**
+     * Returns a single event record on database filtering by your id
+     *
+     * @param id event identifier
+     * @return event with specified identifier
+     * @see Event
+     */
+    public Event getById(Integer id) {
+        EventService eventService = new EventService(getAbstractSessionFactory());
+        return eventService.getById(id);
+    }
 
     /**
      * Returns a list of event records filtering by your dates
      *
      * @param initialDate initial date of event
-     * @param finalDate final date of event
+     * @param finalDate   final date of event
      * @return records with matching dates
      * @see List
      */
-	public List<Event> listByPeriod(String initialDate, String finalDate) {
-		EventService eventService = new EventService(getAbstractSessionFactory());
-		return eventService.getByPeriod(from(initialDate), from(finalDate));
-	}
+    public List<Event> listByPeriod(String initialDate, String finalDate) {
+        EventService eventService = new EventService(getAbstractSessionFactory());
+        return eventService.getByPeriod(from(initialDate), from(finalDate));
+    }
 
-	/**
-	 * Returns all regional records on database
-	 *
-	 * @return list of records
-	 */
-	public List<Regional> listRegionals() {
-		RegionalService regionalService = new RegionalService(getAbstractSessionFactory());
-		return regionalService.getRecords();
-	}
+    /**
+     * Returns all regional records on database
+     *
+     * @return list of records
+     */
+    public List<Regional> listRegionals() {
+        RegionalService regionalService = new RegionalService(getAbstractSessionFactory());
+        return regionalService.getRecords();
+    }
 
-	/**
-	 * Returns all institute records on database
-	 *
-	 * @return list of records
-	 */
-	public List<Institute> listInstitutes() {
-		InstituteService instituteService = new InstituteService(getAbstractSessionFactory());
-		return instituteService.getRecords();
-	}
+    /**
+     * Returns all institute records on database
+     *
+     * @return list of records
+     */
+    public List<Institute> listInstitutes() {
+        InstituteService instituteService = new InstituteService(getAbstractSessionFactory());
+        return instituteService.getRecords();
+    }
 
-	/**
-	 * Returns all category records on database
-	 *
-	 * @return list of records
-	 */
-	public List<Category> listCategories() {
-		CategoryService categoryService = new CategoryService(getAbstractSessionFactory());
-		return categoryService.getRecords();
-	}
+    /**
+     * Returns all category records on database
+     *
+     * @return list of records
+     */
+    public List<Category> listCategories() {
+        CategoryService categoryService = new CategoryService(getAbstractSessionFactory());
+        return categoryService.getRecords();
+    }
 
-	/**
-	 * Returns screen console of event entity
-	 *
-	 * @return event screen console
-	 * @see EventScreenConsole
-	 */
-	public EventScreenConsole getEventScreen() {
-		return eventScreen;
-	}
+    /**
+     * Returns screen console of event entity
+     *
+     * @return event screen console
+     * @see EventScreenConsole
+     */
+    public EventScreenConsole getEventScreen() {
+        return eventScreen;
+    }
 
-	/**
-	 * Attribute a event screen console to entity
-	 *
-	 * @param eventScreen event screen console
-	 * @see EventScreenConsole
-	 */
-	public void setEventScreen(EventScreenConsole eventScreen) {
-		this.eventScreen = eventScreen;
-	}
+    /**
+     * Attribute a event screen console to entity
+     *
+     * @param eventScreen event screen console
+     * @see EventScreenConsole
+     */
+    public void setEventScreen(EventScreenConsole eventScreen) {
+        this.eventScreen = eventScreen;
+    }
 }

@@ -14,10 +14,12 @@ import java.util.List;
 public class EventScreenConsole extends AbstractHeaderView implements HomeView {
 
     private ConsoleInput consoleInput;
+    private EventController eventController;
 
-    public EventScreenConsole(PrintStream out) {
+    public EventScreenConsole(PrintStream out, EventController eventController) {
         super(out);
         setConsoleInput(new ConsoleInput());
+        this.eventController = eventController;
     }
 
     @Override
@@ -91,7 +93,6 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
 
     private void listarPorDescricao() {
         String descricaoEvento = getConsoleInput().askForString("Digite a descricão do evento", true);
-        EventController eventController = new EventController();
         List<Event> events = eventController.listRecordsByDescription(descricaoEvento);
         if (events.isEmpty()) {
             System.out.println("Não existem eventos cadastrados com essa descrição");
@@ -104,8 +105,7 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
         String dataInicial = getConsoleInput().askForString("Digite a data inicial, no formato dd/MM/YYYY", true);
         String dataFinal = getConsoleInput().askForString("Digite a data final, no formato dd/MM/YYYY", true);
 
-        EventController eventoController = new EventController();
-        List<Event> events = eventoController.listByPeriod(dataInicial, dataFinal);
+        List<Event> events = eventController.listByPeriod(dataInicial, dataFinal);
         if (events.isEmpty()) {
             System.out.println("Não existe eventos cadastrados no periodo informado");
         } else {
@@ -114,14 +114,12 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
     }
 
     private void queryEvents() {
-        EventController controller = new EventController();
+        EventController controller = eventController;
         List<Event> events = controller.listRecords();
         events.forEach(x -> System.out.println(x.getId() + " - " + x.getTitle()));
     }
 
     private void createEvent() {
-        EventController eventController = new EventController();
-
         if (validadeEventData()) {
 
             String title = getConsoleInput().askForString("Digite o titulo do evento", true);
@@ -141,8 +139,7 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
     }
 
     private int selectRegionalCode() {
-        EventController controller = new EventController();
-        List<Regional> regionais = controller.listRegionals();
+        List<Regional> regionais = eventController.listRegionals();
         boolean result;
         int codigoRegional = 0;
         do {
@@ -164,8 +161,7 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
     }
 
     private int displayInstituteCode() {
-        EventController controller = new EventController();
-        List<Institute> institutes = controller.listInstitutes();
+        List<Institute> institutes = eventController.listInstitutes();
         boolean result;
         int codigoInstituto = 0;
 
@@ -188,8 +184,7 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
     }
 
     private int selectCategoryCode() {
-        EventController controller = new EventController();
-        List<Category> categories = controller.listCategories();
+        List<Category> categories = eventController.listCategories();
         boolean result;
         int codigoCategoria = 0;
 
@@ -212,12 +207,11 @@ public class EventScreenConsole extends AbstractHeaderView implements HomeView {
     }
 
     private boolean validadeEventData() {
-        EventController controller = new EventController();
         boolean result = true;
 
-        List<Regional> regionals = controller.listRegionals();
-        List<Institute> institutes = controller.listInstitutes();
-        List<Category> categories = controller.listCategories();
+        List<Regional> regionals = eventController.listRegionals();
+        List<Institute> institutes = eventController.listInstitutes();
+        List<Category> categories = eventController.listCategories();
 
         if (regionals == null || regionals.isEmpty()) {
             System.out.println("Não existem regionais cadastradas, efetue o seu cadastro antes de prosseguir");

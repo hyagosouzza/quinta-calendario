@@ -11,17 +11,19 @@ import java.util.List;
 public class CategoryScreenConsole extends AbstractHeaderView implements HomeView {
 
     private ConsoleInput consoleInput;
+    private CategoryController categoryController;
 
-    public CategoryScreenConsole(PrintStream output) {
+    public CategoryScreenConsole(PrintStream output, CategoryController categoryController) {
         super(output);
         setConsoleInput(new ConsoleInput());
+        this.categoryController = categoryController;
     }
 
     @Override
     public void displayOptions() {
         displayHeader();
         displayHomeOptions();
-        Integer opcao = getConsoleInput().askForInteger(displayHomeOptions().toString());
+        Integer opcao = getConsoleInput().askForInteger(displayHomeOptions());
         redirect(opcao);
     }
 
@@ -69,19 +71,19 @@ public class CategoryScreenConsole extends AbstractHeaderView implements HomeVie
         if (!categories.isEmpty()) {
             displayCategories(categories);
             Integer codigo = getConsoleInput().askForInteger("Digite o codigo da Categoria que deseja remover");
-            new CategoryController().remove(codigo);
+            categoryController.remove(codigo);
             System.out.println("Categoria removida com sucesso");
         }
     }
 
     private void queryByDescription() {
         String descricao = getConsoleInput().askForString("Digite a descrição desejada", true);
-        List<Category> categories = new CategoryController().listRecordsByDescription(descricao);
+        List<Category> categories = categoryController.listRecordsByDescription(descricao);
         displayCategories(categories);
     }
 
     private List<Category> queryCategories() {
-        return new CategoryController().listRecords();
+        return categoryController.listRecords();
     }
 
     private void editCategory() {
@@ -92,7 +94,7 @@ public class CategoryScreenConsole extends AbstractHeaderView implements HomeVie
             displayCategories(categories);
             Integer codigo = getConsoleInput().askForInteger("Digite o codigo da Categoria que deseja editar");
 
-            Category Category = new CategoryController().getById(codigo);
+            Category Category = categoryController.getById(codigo);
 
             if (Category.getName().isEmpty()) {
                 System.out.println("Categoria não encontrada");
@@ -101,7 +103,7 @@ public class CategoryScreenConsole extends AbstractHeaderView implements HomeVie
                 System.out.println(Category.getId() + " - " + Category.getName());
 
                 String name = getConsoleInput().askForString("Digite o novo nome da Categoria", true);
-                new CategoryController().edit(codigo, name);
+                categoryController.edit(codigo, name);
 
                 System.out.println("Categoria Alterada Com Sucesso");
             }
@@ -112,7 +114,7 @@ public class CategoryScreenConsole extends AbstractHeaderView implements HomeVie
         boolean result = false;
         while (!result) {
             String nome = getConsoleInput().askForString("Digite o nome da Categoria");
-            result = new CategoryController().register(nome);
+            result = categoryController.register(nome);
         }
 
         System.out.println("Categoria Cadastrada Com Sucesso");

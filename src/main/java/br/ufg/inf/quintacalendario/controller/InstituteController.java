@@ -23,7 +23,7 @@ public class InstituteController extends AbstractController {
      */
     public InstituteController() {
         super(Application.getInstance().getSessionFactory());
-        setInstituteScreen(new InstituteScreenConsole(System.out));
+        setInstituteScreen(new InstituteScreenConsole(System.out, this));
     }
 
     /**
@@ -83,7 +83,7 @@ public class InstituteController extends AbstractController {
     /**
      * Edit a specific institute
      *
-     * @param id institute identifier
+     * @param id   institute identifier
      * @param name institute name
      */
     public void edit(Integer id, String name) {

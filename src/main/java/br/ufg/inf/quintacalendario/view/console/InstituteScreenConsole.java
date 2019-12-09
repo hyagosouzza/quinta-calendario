@@ -11,10 +11,12 @@ import java.util.List;
 public class InstituteScreenConsole extends AbstractHeaderView implements HomeView {
 
     private ConsoleInput consoleInput;
+    private InstituteController instituteController;
 
-    public InstituteScreenConsole(PrintStream output) {
+    public InstituteScreenConsole(PrintStream output, InstituteController instituteController) {
         super(output);
         setConsoleInput(new ConsoleInput());
+        this.instituteController = instituteController;
     }
 
     @Override
@@ -69,19 +71,19 @@ public class InstituteScreenConsole extends AbstractHeaderView implements HomeVi
         if (!institutes.isEmpty()) {
             displayInstitutes(institutes);
             Integer codigo = getConsoleInput().askForInteger("Digite o codigo da Instituto que deseja remover");
-            new InstituteController().remove(codigo);
+            instituteController.remove(codigo);
             System.out.println("Instituto removida com sucesso");
         }
     }
 
     private void queryByDescription() {
         String descricao = getConsoleInput().askForString("Digite a descrição desejada", true);
-        List<Institute> institutes = new InstituteController().listRecordsByDescription(descricao);
+        List<Institute> institutes = instituteController.listRecordsByDescription(descricao);
         displayInstitutes(institutes);
     }
 
     private List<Institute> queryInstitutes() {
-        return new InstituteController().listRecords();
+        return instituteController.listRecords();
     }
 
     private void editInstitute() {
@@ -92,7 +94,7 @@ public class InstituteScreenConsole extends AbstractHeaderView implements HomeVi
             displayInstitutes(institutes);
             Integer codigo = getConsoleInput().askForInteger("Digite o codigo da Instituto que deseja editar");
 
-            Institute institute = new InstituteController().getById(codigo);
+            Institute institute = instituteController.getById(codigo);
 
             if (institute == null) {
                 System.out.println("Instituto não encontrado");
@@ -101,7 +103,7 @@ public class InstituteScreenConsole extends AbstractHeaderView implements HomeVi
                 System.out.println(institute.getId() + " - " + institute.getName());
 
                 String nome = getConsoleInput().askForString("Digite o novo nome do Instituto", true);
-                new InstituteController().edit(codigo, nome);
+                instituteController.edit(codigo, nome);
 
                 System.out.println("Instituto Alterado Com Sucesso");
             }
@@ -112,7 +114,7 @@ public class InstituteScreenConsole extends AbstractHeaderView implements HomeVi
         boolean result = false;
         while (!result) {
             String nome = getConsoleInput().askForString("Digite o nome do Instituto");
-            result = new InstituteController().register(nome);
+            result = instituteController.register(nome);
         }
 
         System.out.println("Instituto Cadastrado Com Sucesso");

@@ -23,7 +23,7 @@ public class RegionalController extends AbstractController {
      */
     public RegionalController() {
         super(Application.getInstance().getSessionFactory());
-        regionalScreen = new RegionalScreenConsole(System.out);
+        regionalScreen = new RegionalScreenConsole(System.out, this);
     }
 
     /**
@@ -83,7 +83,7 @@ public class RegionalController extends AbstractController {
     /**
      * Edit a specific regional
      *
-     * @param id regional identifier
+     * @param id   regional identifier
      * @param name regional name
      */
     public void edit(Integer id, String name) {

@@ -11,10 +11,12 @@ import java.util.List;
 public class RegionalScreenConsole extends AbstractHeaderView implements HomeView {
 
     private ConsoleInput consoleInput;
+    private RegionalController regionalController;
 
-    public RegionalScreenConsole(PrintStream output) {
+    public RegionalScreenConsole(PrintStream output, RegionalController regionalController) {
         super(output);
         setConsoleInput(new ConsoleInput());
+        this.regionalController = regionalController;
     }
 
     @Override
@@ -69,19 +71,19 @@ public class RegionalScreenConsole extends AbstractHeaderView implements HomeVie
         if (!regionals.isEmpty()) {
             displayRegionals(regionals);
             Integer codigo = getConsoleInput().askForInteger("Digite o codigo da regional que deseja remover");
-            new RegionalController().remove(codigo);
+            regionalController.remove(codigo);
             System.out.println("Regional removida com sucesso");
         }
     }
 
     private void queryByDescription() {
         String descricao = getConsoleInput().askForString("Digite a descrição desejada", true);
-        List<Regional> regionais = new RegionalController().listRecordsByDescription(descricao);
+        List<Regional> regionais = regionalController.listRecordsByDescription(descricao);
         displayRegionals(regionais);
     }
 
     private List<Regional> queryRegionals() {
-        return new RegionalController().listRecords();
+        return regionalController.listRecords();
     }
 
     private void editRegional() {
@@ -92,7 +94,7 @@ public class RegionalScreenConsole extends AbstractHeaderView implements HomeVie
             displayRegionals(regionais);
             Integer codigo = getConsoleInput().askForInteger("Digite o codigo da regional que deseja editar");
 
-            Regional regional = new RegionalController().getById(codigo);
+            Regional regional = regionalController.getById(codigo);
 
             if (regional.getName().isEmpty()) {
                 System.out.println("Regional não encontrada");
@@ -101,7 +103,7 @@ public class RegionalScreenConsole extends AbstractHeaderView implements HomeVie
                 System.out.println(regional.getId() + " - " + regional.getName());
 
                 String nome = getConsoleInput().askForString("Digite o novo nome da Regional", true);
-                new RegionalController().edit(codigo, nome);
+                regionalController.edit(codigo, nome);
 
                 System.out.println("Regional Alterada Com Sucesso");
             }
@@ -112,7 +114,7 @@ public class RegionalScreenConsole extends AbstractHeaderView implements HomeVie
         boolean result = false;
         while (!result) {
             String nome = getConsoleInput().askForString("Digite o nome da regional");
-            result = new RegionalController().register(nome);
+            result = regionalController.register(nome);
         }
 
         System.out.println("Regional Cadastrada Com Sucesso");

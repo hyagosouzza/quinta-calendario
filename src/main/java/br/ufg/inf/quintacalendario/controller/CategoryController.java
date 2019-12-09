@@ -23,7 +23,7 @@ public class CategoryController extends AbstractController {
      */
     public CategoryController() {
         super(Application.getInstance().getSessionFactory());
-        categoryScreen = new CategoryScreenConsole(System.out);
+        categoryScreen = new CategoryScreenConsole(System.out, this);
     }
 
     /**
@@ -83,7 +83,7 @@ public class CategoryController extends AbstractController {
     /**
      * Edit a specific category
      *
-     * @param id category identifier
+     * @param id   category identifier
      * @param name category name
      */
     public void edit(Integer id, String name) {
