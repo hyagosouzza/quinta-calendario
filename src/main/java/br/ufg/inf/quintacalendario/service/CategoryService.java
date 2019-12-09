@@ -61,7 +61,7 @@ public class CategoryService {
         }
 
         if ((category.getName().trim().length()) < MIN_LENGTH) {
-            throw new IllegalArgumentException("O node da categoria deve ter no minimo 4 caracteres");
+            throw new IllegalArgumentException("O node da categoria deve ter no minimo " + MIN_LENGTH + " caracteres");
         }
     }
 
