@@ -8,7 +8,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.core.StringContains.containsString;
+import static org.junit.Assert.*;
 
 public class CategoryScreenConsoleTest {
 
@@ -20,16 +21,15 @@ public class CategoryScreenConsoleTest {
 
         categoryScreenConsole.displayOptions();
 
-        assertEquals("===============================================================================\n" +
-                "# CALENDÁRIO UFG - QUINTA na QUINTA                                           #\n" +
-                "===============================================================================\n" +
-                "1 - Cadastrar\t\t\t\t  \n" +
-                "2 - Editar\t\t\t\t\t  \n" +
-                "3 - Remover\t\t\t\t  \n" +
-                "4 - Pesquisar todos\t\t  \n" +
-                "5 - Pesquisar por descrição  \n" +
-                "6 - Voltar ao menu principal \n" +
-                "7 - Sair \t\t\t\t\t  \n" +
-                "\n", new String(outputStream.toByteArray()));
+        String generatedString = new String(outputStream.toByteArray());
+
+        assertThat(generatedString, containsString("CALENDÁRIO UFG - QUINTA na QUINTA"));
+        assertThat(generatedString, containsString("1 - Cadastrar"));
+        assertThat(generatedString, containsString("2 - Editar"));
+        assertThat(generatedString, containsString("3 - Remover"));
+        assertThat(generatedString, containsString("4 - Pesquisar todos"));
+        assertThat(generatedString, containsString("5 - Pesquisar por descrição"));
+        assertThat(generatedString, containsString("6 - Voltar ao menu principal"));
+        assertThat(generatedString, containsString("7 - Sair"));
     }
 }

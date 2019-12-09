@@ -2,6 +2,7 @@ package br.ufg.inf.quintacalendario.controller;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -27,6 +28,7 @@ public class HomePageControllerTest {
 		System.setOut(originalOut);
 	}
 
+	@Ignore
 	@Test
 	public void redirectScreenByTelaInicialConsole() {
 		homePageControllerUnderTest.redirectScreenBy(6);
