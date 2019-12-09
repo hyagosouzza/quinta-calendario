@@ -110,7 +110,7 @@ public class CategoryService {
      * @param id id of the category to be edited
      * @param name new category's name
      */
-    public void edit(Integer id, String name) {
+    public void editName(Integer id, String name) {
         Session session = sessionFactory.openSession();
         CategoryRepository repository = new CategoryRepository(session);
         Category category = repository.getById(id);

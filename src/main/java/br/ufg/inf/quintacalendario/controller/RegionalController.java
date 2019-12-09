@@ -90,7 +90,7 @@ public class RegionalController extends AbstractController {
      */
     public void edit(Integer id, String name) {
         RegionalService regionalService = new RegionalService(getAbstractSessionFactory());
-        regionalService.edit(id, name);
+        regionalService.editDescription(id, name);
     }
 
     /**

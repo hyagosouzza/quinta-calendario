@@ -90,7 +90,7 @@ public class CategoryController extends AbstractController {
      */
     public void edit(Integer id, String name) {
         CategoryService categoryService = new CategoryService(getAbstractSessionFactory());
-        categoryService.edit(id, name);
+        categoryService.editName(id, name);
     }
 
     /**

@@ -57,7 +57,7 @@ public class RegionalService {
      * @param id id of the regional to be edited
      * @param description new regional's description
      */
-    public void edit(long id, String description) {
+    public void editDescription(long id, String description) {
         Session session = sessionFactory.openSession();
         RegionalRepository regionalRepository = new RegionalRepository(session);
         Regional regional = regionalRepository.getById(id);

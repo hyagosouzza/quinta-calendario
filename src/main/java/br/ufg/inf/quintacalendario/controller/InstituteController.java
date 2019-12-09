@@ -90,7 +90,7 @@ public class InstituteController extends AbstractController {
      */
     public void edit(Integer id, String name) {
         InstituteService instituteService = new InstituteService(getAbstractSessionFactory());
-        instituteService.edit(id, name);
+        instituteService.editName(id, name);
     }
 
     /**

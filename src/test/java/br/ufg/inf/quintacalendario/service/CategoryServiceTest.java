@@ -68,7 +68,7 @@ public class CategoryServiceTest {
         category.setName("Category under test");
 
         //run
-        categoryServiceUnderTest.edit(1, "New name");
+        categoryServiceUnderTest.editName(1, "New name");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -120,6 +120,6 @@ public class CategoryServiceTest {
         EventService eventService = new EventService(sessionFactory);
         List<Event> events = eventService.getRecords();
 
-        events.forEach(eventService::clearObject);
+        events.forEach(eventService::clearAttributes);
     }
 }

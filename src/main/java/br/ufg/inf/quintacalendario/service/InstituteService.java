@@ -111,7 +111,7 @@ public class InstituteService {
      * @param id id of the institute to be edited
      * @param name new institute's name
      */
-    public void edit(Integer id, String name) {
+    public void editName(Integer id, String name) {
         Session session = sessionFactory.openSession();
         InstituteRepository instituteRepository = new InstituteRepository(session);
         Institute institute = instituteRepository.getById(id);

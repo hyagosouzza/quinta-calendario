@@ -58,7 +58,7 @@ public class RegionalServiceTest {
         regional.setName("Regional under test");
 
         //run
-        regionalServiceUnderTest.edit(1, "New name");
+        regionalServiceUnderTest.editDescription(1, "New name");
     }
 
     @Test(expected = IllegalArgumentException.class)

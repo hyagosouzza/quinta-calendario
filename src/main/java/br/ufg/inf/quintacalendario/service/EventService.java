@@ -157,15 +157,15 @@ public class EventService {
      * Clears an event category
      * @param event event to be edited
      */
-    private void deleteCategory(Event event) {
+    private void clearCategory(Event event) {
         event.setCategory(null);
     }
 
     /**
-     * Clears an event institute
+     * Clears all the event's institutes
      * @param event event to be edited
      */
-    private void deleteInstitute(Event event) {
+    private void clearInstitutes(Event event) {
         event.getInstitutes().clear();
     }
 
@@ -173,7 +173,7 @@ public class EventService {
      * Clears all the event's regionals
      * @param event event to be edited
      */
-    private void deleteRegionals(Event event) {
+    private void clearRegionals(Event event) {
         event.getRegionals().clear();
     }
 
@@ -181,13 +181,13 @@ public class EventService {
      * Clears all attributes of an given event
      * @param event event to be cleared
      */
-    public void clearObject(Event event) {
+    public void clearAttributes(Event event) {
         try (Session session = getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
 
-            deleteCategory(event);
-            deleteInstitute(event);
-            deleteRegionals(event);
+            clearCategory(event);
+            clearInstitutes(event);
+            clearRegionals(event);
 
             new EventRepository(session).update(event);
             transaction.commit();
