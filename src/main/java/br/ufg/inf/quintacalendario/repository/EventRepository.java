@@ -19,7 +19,7 @@ public class EventRepository extends AbstractRepository<Event> {
         StringBuilder jpql = new StringBuilder();
         jpql.append("Select t from event t where t.descricao like :descricao");
 
-        Map<String, Object> parametros = new HashMap<String, Object>();
+        Map<String, Object> parametros = new HashMap<>();
 
         parametros.put("descricao", "%" + description + "%");
 
@@ -31,7 +31,7 @@ public class EventRepository extends AbstractRepository<Event> {
         jpql.append("select t from event t inner join t.category c ")
                 .append("where c.id = :idCategoria");
 
-        Map<String, Object> parametros = new HashMap<String, Object>();
+        Map<String, Object> parametros = new HashMap<>();
         parametros.put("idCategoria", idCategory);
 
         return select(jpql.toString(), parametros);
@@ -42,7 +42,7 @@ public class EventRepository extends AbstractRepository<Event> {
         jpql.append("select t from event t inner join t.institutes i ")
                 .append("where i.id = :idInstituto");
 
-        Map<String, Object> parametros = new HashMap<String, Object>();
+        Map<String, Object> parametros = new HashMap<>();
         parametros.put("idInstituto", idInstitute);
 
         return select(jpql.toString(), parametros);
@@ -53,7 +53,7 @@ public class EventRepository extends AbstractRepository<Event> {
         jpql.append("select t from event t inner join t.regionais r ")
                 .append("where r.id = :idRegional");
 
-        Map<String, Object> parametros = new HashMap<String, Object>();
+        Map<String, Object> parametros = new HashMap<>();
         parametros.put("idRegional", idRegional);
 
         return select(jpql.toString(), parametros);
@@ -64,7 +64,7 @@ public class EventRepository extends AbstractRepository<Event> {
         jpql.append("select t from event t ")
                 .append("where t.dataInicial >= :dataInicial and t.dataFinal <= :dataFinal");
 
-        Map<String, Object> parametros = new HashMap<String, Object>();
+        Map<String, Object> parametros = new HashMap<>();
 
         parametros.put("dataInicial", initialDate);
         parametros.put("dataFinal", finalDate);
@@ -77,7 +77,7 @@ public class EventRepository extends AbstractRepository<Event> {
         jpql.append("select t from event t ")
                 .append("where t.dataInicial = :dataInicial");
 
-        Map<String, Object> parametros = new HashMap<String, Object>();
+        Map<String, Object> parametros = new HashMap<>();
 
         parametros.put("dataInicial", initialDate);
 
